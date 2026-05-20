@@ -50,45 +50,56 @@ export default function Header() {
           <a href="/" className="flex items-center gap-2 group">
             {/* Hexagon + geometric tooth emblem */}
             <div className="relative flex-shrink-0">
-              <svg width="56" height="56" viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg" className="transition-all duration-300 group-hover:drop-shadow-[0_0_10px_rgba(0,229,255,0.6)]">
+              <svg width="64" height="64" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" className="transition-all duration-300 group-hover:drop-shadow-[0_0_10px_rgba(0,229,255,0.6)]">
                 {/* Hexagon background */}
                 <polygon
-                  points="28,3 51,16 51,40 28,53 5,40 5,16"
-                  fill="#04080F"
+                  points="50,5 91,27.5 91,72.5 50,95 9,72.5 9,27.5"
+                  fill="#06101E"
                   stroke="#00E5FF"
-                  strokeWidth="1.3"
+                  strokeWidth="2"
                 />
-                {/* Geometric low-poly tooth */}
-                {/* Outer tooth shape points:
-                    Top-left cusp: (16, 14)
-                    Top-center: (22, 11)
-                    Top-right cusp: (28, 14)
-                    Top-right outer: (34, 11)
-                    Right side: (38, 18)
-                    Right lower: (36, 29)
-                    Right root: (32, 42)
-                    Left root: (20, 42)
-                    Left lower: (16, 29)
-                    Left side: (14, 18)
-                    Center: (28, 24)
-                    Center bottom: (26, 34)
+                {/* Geometric low-poly tooth
+                    Key points:
+                    A=(35,20) top-left cusp
+                    B=(43,15) top-left peak
+                    C=(50,20) top-center valley
+                    D=(57,15) top-right peak
+                    E=(65,20) top-right cusp
+                    F=(68,35) right upper
+                    G=(63,55) right lower
+                    H=(57,75) right root tip
+                    I=(43,75) left root tip
+                    J=(37,55) left lower
+                    K=(32,35) left upper
+                    M=(50,35) center mid
+                    N=(50,58) center lower
                 */}
-                {/* Outer outline */}
-                <polyline points="16,14 22,11 28,14 34,11 38,18 36,29 32,42 20,42 16,29 14,18 16,14" stroke="#00E5FF" strokeWidth="1" fill="none" strokeLinejoin="round"/>
-                {/* Internal triangulation lines */}
-                <line x1="16" y1="14" x2="28" y2="14" stroke="#00E5FF" strokeWidth="0.8"/>
-                <line x1="14" y1="18" x2="28" y2="24" stroke="#00E5FF" strokeWidth="0.8"/>
-                <line x1="38" y1="18" x2="28" y2="24" stroke="#00E5FF" strokeWidth="0.8"/>
-                <line x1="16" y1="14" x2="28" y2="24" stroke="#00E5FF" strokeWidth="0.8"/>
-                <line x1="28" y1="14" x2="28" y2="24" stroke="#00E5FF" strokeWidth="0.8"/>
-                <line x1="34" y1="11" x2="28" y2="24" stroke="#00E5FF" strokeWidth="0.8"/>
-                <line x1="16" y1="29" x2="28" y2="24" stroke="#00E5FF" strokeWidth="0.8"/>
-                <line x1="36" y1="29" x2="28" y2="24" stroke="#00E5FF" strokeWidth="0.8"/>
-                <line x1="16" y1="29" x2="26" y2="34" stroke="#00E5FF" strokeWidth="0.8"/>
-                <line x1="36" y1="29" x2="26" y2="34" stroke="#00E5FF" strokeWidth="0.8"/>
-                <line x1="28" y1="24" x2="26" y2="34" stroke="#00E5FF" strokeWidth="0.8"/>
-                <line x1="20" y1="42" x2="26" y2="34" stroke="#00E5FF" strokeWidth="0.8"/>
-                <line x1="32" y1="42" x2="26" y2="34" stroke="#00E5FF" strokeWidth="0.8"/>
+                {/* Outer tooth boundary */}
+                <polygon
+                  points="35,20 43,15 50,20 57,15 65,20 68,35 63,55 57,75 43,75 37,55 32,35"
+                  fill="none"
+                  stroke="#00E5FF"
+                  strokeWidth="1.5"
+                  strokeLinejoin="round"
+                />
+                {/* Internal triangulation */}
+                {/* top area */}
+                <line x1="35" y1="20" x2="50" y2="35" stroke="#00E5FF" strokeWidth="1"/>
+                <line x1="50" y1="20" x2="50" y2="35" stroke="#00E5FF" strokeWidth="1"/>
+                <line x1="65" y1="20" x2="50" y2="35" stroke="#00E5FF" strokeWidth="1"/>
+                <line x1="43" y1="15" x2="50" y2="35" stroke="#00E5FF" strokeWidth="1"/>
+                <line x1="57" y1="15" x2="50" y2="35" stroke="#00E5FF" strokeWidth="1"/>
+                <line x1="32" y1="35" x2="50" y2="35" stroke="#00E5FF" strokeWidth="1"/>
+                <line x1="68" y1="35" x2="50" y2="35" stroke="#00E5FF" strokeWidth="1"/>
+                {/* middle to lower */}
+                <line x1="32" y1="35" x2="50" y2="58" stroke="#00E5FF" strokeWidth="1"/>
+                <line x1="68" y1="35" x2="50" y2="58" stroke="#00E5FF" strokeWidth="1"/>
+                <line x1="50" y1="35" x2="50" y2="58" stroke="#00E5FF" strokeWidth="1"/>
+                <line x1="37" y1="55" x2="50" y2="58" stroke="#00E5FF" strokeWidth="1"/>
+                <line x1="63" y1="55" x2="50" y2="58" stroke="#00E5FF" strokeWidth="1"/>
+                {/* roots */}
+                <line x1="43" y1="75" x2="50" y2="58" stroke="#00E5FF" strokeWidth="1"/>
+                <line x1="57" y1="75" x2="50" y2="58" stroke="#00E5FF" strokeWidth="1"/>
               </svg>
             </div>
 
