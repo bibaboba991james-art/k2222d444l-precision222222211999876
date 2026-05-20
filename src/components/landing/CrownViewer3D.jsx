@@ -83,9 +83,11 @@ export default function CrownViewer3D() {
         const center = box.getCenter(new THREE.Vector3());
         const size = box.getSize(new THREE.Vector3());
         const maxDim = Math.max(size.x, size.y, size.z);
-        const scale = 2.0 / maxDim;
+        const scale = 2.4 / maxDim;
         model.scale.setScalar(scale);
-        model.position.sub(center.multiplyScalar(scale));
+        model.position.x = -center.x * scale;
+        model.position.y = -center.y * scale;
+        model.position.z = -center.z * scale;
         
         // Set initial angle for better view
         model.rotation.x = 0.15;
