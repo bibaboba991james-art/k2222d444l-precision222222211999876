@@ -48,31 +48,21 @@ export default function Header() {
         <div className="flex items-center justify-between h-16 md:h-20">
           {/* Logo */}
           <a href="/" className="flex items-center gap-2 group">
-            {/* K letter with tooth accent */}
+            {/* Square emblem with K */}
             <div className="relative flex-shrink-0">
-              <svg width="56" height="56" viewBox="0 0 112 112" fill="none" xmlns="http://www.w3.org/2000/svg" className="transition-all duration-300 group-hover:drop-shadow-[0_0_12px_rgba(0,229,255,0.7)]">
-                {/* Big К letter */}
+              <svg width="44" height="44" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg" className="transition-all duration-300 group-hover:drop-shadow-[0_0_14px_rgba(0,229,255,0.6)]">
+                {/* Dark rounded square background */}
+                <rect x="1" y="1" width="42" height="42" rx="8" ry="8" fill="#04080F" stroke="#00E5FF" strokeWidth="1.5"/>
+                {/* Big К letter centered */}
                 <text
-                  x="2"
-                  y="92"
+                  x="22"
+                  y="31"
                   fontFamily="Arial Black, Arial, sans-serif"
                   fontWeight="900"
-                  fontSize="94"
+                  fontSize="28"
                   fill="#00E5FF"
+                  textAnchor="middle"
                 >К</text>
-                {/* Tooth accent — sits at junction of К diagonals, right side */}
-                <g transform="translate(68, 28)">
-                  {/* tooth body */}
-                  <path
-                    d="M 14,2 C 9,2 4,5 2,10 C 0,15 1,22 3,28 C 5,34 7,39 9,44 L 11,54 L 13,44 L 14,41 L 15,44 L 17,54 L 19,44 C 21,39 23,34 25,28 C 27,22 28,15 26,10 C 24,5 19,2 14,2 Z"
-                    fill="#00E5FF"
-                  />
-                  {/* highlight */}
-                  <path
-                    d="M 6,8 C 8,5 11,4 13,4 C 12,7 9,10 8,13 C 7,11 6,9 6,8 Z"
-                    fill="rgba(255,255,255,0.4)"
-                  />
-                </g>
               </svg>
             </div>
 
