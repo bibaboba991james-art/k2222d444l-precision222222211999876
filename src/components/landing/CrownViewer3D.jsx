@@ -88,8 +88,8 @@ export default function CrownViewer3D() {
         model.position.sub(center.multiplyScalar(scale));
         
         // Set initial angle for better view
-        model.rotation.x = 0.25;
-        model.rotation.y = -0.35;
+        model.rotation.x = 0.15;
+        model.rotation.y = 0;
 
         applyMaterial(model, MATERIALS['zirconia']);
         scene.add(model);
@@ -112,7 +112,7 @@ export default function CrownViewer3D() {
         rotVelocity.current.y *= 0.88;
         modelRef.current.rotation.y += rotVelocity.current.y;
         modelRef.current.rotation.x += rotVelocity.current.x;
-        modelRef.current.rotation.x = Math.max(-Math.PI, Math.min(Math.PI, modelRef.current.rotation.x));
+        modelRef.current.rotation.x = Math.max(-0.8, Math.min(1.0, modelRef.current.rotation.x));
       }
       renderer.render(scene, camera);
     };
@@ -144,7 +144,7 @@ export default function CrownViewer3D() {
     rotVelocity.current.y = dx * 0.008;
     rotVelocity.current.x = dy * 0.008;
     modelRef.current.rotation.y += dx * 0.008;
-    modelRef.current.rotation.x = Math.max(-Math.PI, Math.min(Math.PI, modelRef.current.rotation.x + dy * 0.008));
+    modelRef.current.rotation.x = Math.max(-0.8, Math.min(1.0, modelRef.current.rotation.x + dy * 0.008));
     prevMouse.current = { x: e.clientX, y: e.clientY };
   };
   const onPointerUp = () => { isDragging.current = false; };
@@ -154,7 +154,7 @@ export default function CrownViewer3D() {
     if (cameraRef.current) cameraRef.current.position.z = zoomRef.current;
   };
   const resetView = () => {
-    if (modelRef.current) { modelRef.current.rotation.set(0.25, -0.35, 0); rotVelocity.current = { x: 0, y: 0 }; }
+    if (modelRef.current) { modelRef.current.rotation.set(0.15, 0, 0); rotVelocity.current = { x: 0, y: 0 }; }
     if (cameraRef.current) { zoomRef.current = 6.5; cameraRef.current.position.z = 6.5; }
   };
   const zoom = (dir) => {
