@@ -4,7 +4,7 @@ import { Monitor, Cog, ScanLine, Shield, Zap, Award } from 'lucide-react';
 
 const SCANNER_IMG = 'https://media.base44.com/images/public/6a0d5f41b02c752e7da9527b/5ad6906c0_generated_image.png';
 const CAD_IMG = 'https://media.base44.com/images/public/6a0d5f41b02c752e7da9527b/b574bf0b3_generated_image.png';
-const MILLING_IMG = 'https://media.base44.com/images/public/6a0d5f41b02c752e7da9527b/dc68c345a_generated_image.png';
+const MILLING_IMG = 'https://media.base44.com/images/public/6a0d5f41b02c752e7da9527b/f6a1e8b1f_generated_image.png';
 
 const steps = [
   {

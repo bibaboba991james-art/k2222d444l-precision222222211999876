@@ -3,8 +3,7 @@ import { motion } from 'framer-motion';
 import { ArrowDown } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
-const HERO_IMG = 'https://media.base44.com/images/public/6a0d5f41b02c752e7da9527b/75124c0f3_generated_b45402b3.png';
-const EXOCAD_IMG = 'https://media.base44.com/images/public/6a0d5f41b02c752e7da9527b/b574bf0b3_generated_image.png';
+const HERO_IMG = 'https://media.base44.com/images/public/6a0d5f41b02c752e7da9527b/ea2953289_generated_image.png';
 
 export default function HeroSection() {
   return (
@@ -108,19 +107,6 @@ export default function HeroSection() {
                 alt="3D модель верхней челюсти с цветовой картой анализа"
                 className="relative w-full max-w-lg mx-auto lg:max-w-none rounded-lg"
               />
-
-              {/* Exocad interface overlay — bottom right */}
-              <div className="absolute -bottom-4 -right-2 sm:bottom-0 sm:right-0 w-48 sm:w-64 border border-cyan/20 rounded-sm overflow-hidden glow-cyan">
-                <img
-                  src={EXOCAD_IMG}
-                  alt="Интерфейс Exocad"
-                  className="w-full"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-obsidian/60 to-transparent" />
-                <div className="absolute bottom-2 left-2 font-mono text-[10px] text-cyan/70">
-                  EXOCAD DentalCAD
-                </div>
-              </div>
 
               {/* Tech label top left */}
               <div className="absolute top-4 left-4 flex items-center gap-2 bg-obsidian/80 backdrop-blur-sm border border-cyan/20 rounded-sm px-3 py-1.5">
