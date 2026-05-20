@@ -32,7 +32,7 @@ export default function CrownViewer3D() {
   const isDragging = useRef(false);
   const prevMouse = useRef({ x: 0, y: 0 });
   const rotVelocity = useRef({ x: 0, y: 0 });
-  const zoomRef = useRef(4.5);
+  const zoomRef = useRef(6.5);
 
   const [activeTab, setActiveTab] = useState('zirconia');
   const [loading, setLoading] = useState(true);
@@ -151,7 +151,7 @@ export default function CrownViewer3D() {
   };
   const resetView = () => {
     if (modelRef.current) { modelRef.current.rotation.set(0, 0, 0); rotVelocity.current = { x: 0, y: 0 }; }
-    if (cameraRef.current) { zoomRef.current = 4.5; cameraRef.current.position.z = 4.5; }
+    if (cameraRef.current) { zoomRef.current = 6.5; cameraRef.current.position.z = 6.5; }
   };
   const zoom = (dir) => {
     zoomRef.current = Math.max(2.5, Math.min(10, zoomRef.current + dir * 0.5));
