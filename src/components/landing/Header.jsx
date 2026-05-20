@@ -16,6 +16,7 @@ export default function Header() {
   const navItems = [
     { label: 'О нас', href: '#about' },
     { label: 'Услуги', href: '#services' },
+    { label: 'Прайс', href: '/prices' },
     { label: 'Технологии', href: '#tech' },
     { label: 'Контакты', href: '#contact' },
   ];
