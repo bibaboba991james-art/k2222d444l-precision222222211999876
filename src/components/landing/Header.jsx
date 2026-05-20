@@ -50,35 +50,41 @@ export default function Header() {
           <a href="/" className="flex items-center gap-2 group">
             {/* Tooth silhouette with К letter inside */}
             <div className="relative flex-shrink-0">
-              <svg width="48" height="56" viewBox="0 0 80 90" fill="none" xmlns="http://www.w3.org/2000/svg" className="transition-all duration-300 group-hover:drop-shadow-[0_0_12px_rgba(0,229,255,0.7)]">
-                {/* Filled tooth shape */}
+              <svg width="44" height="52" viewBox="0 0 88 104" fill="none" xmlns="http://www.w3.org/2000/svg" className="transition-all duration-300 group-hover:drop-shadow-[0_0_12px_rgba(0,229,255,0.7)]">
+                {/* Rounded tooth silhouette — two cusps top, two roots bottom */}
                 <path
                   d="
-                    M 40,4
-                    L 52,8 L 64,8 L 74,18
-                    L 72,38 L 66,54
-                    L 60,72 L 56,82
-                    L 52,72 L 48,66
-                    L 40,66
-                    L 32,66 L 28,72
-                    L 24,82 L 20,72
-                    L 14,54 L 8,38
-                    L 6,18 L 16,8
-                    L 28,8 Z
+                    M 44,6
+                    C 36,6 26,8 20,16
+                    C 14,24 14,36 16,46
+                    C 18,56 22,64 26,72
+                    L 30,88 L 34,74 L 38,68
+                    L 44,66 L 50,68 L 54,74
+                    L 58,88 L 62,72
+                    C 66,64 70,56 72,46
+                    C 74,36 74,24 68,16
+                    C 62,8 52,6 44,6 Z
                   "
                   fill="#00E5FF"
                 />
-                {/* Letter К cutout (white) */}
+                {/* Two cusps notch at top */}
+                <path
+                  d="M 28,18 C 32,12 38,14 44,18 C 50,14 56,12 60,18"
+                  fill="#04080F"
+                  stroke="#04080F"
+                  strokeWidth="4"
+                  strokeLinecap="round"
+                />
+                {/* Letter К */}
                 <text
-                  x="40"
-                  y="52"
+                  x="44"
+                  y="50"
                   textAnchor="middle"
                   dominantBaseline="middle"
-                  fontFamily="Inter, Arial, sans-serif"
-                  fontWeight="700"
-                  fontSize="36"
+                  fontFamily="Arial, sans-serif"
+                  fontWeight="800"
+                  fontSize="34"
                   fill="#04080F"
-                  letterSpacing="-1"
                 >К</text>
               </svg>
             </div>
