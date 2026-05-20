@@ -146,7 +146,7 @@ export default function CrownViewer3D() {
   const onPointerUp = () => { isDragging.current = false; };
   const onWheel = (e) => {
     e.preventDefault();
-    zoomRef.current = Math.max(2.5, Math.min(10, zoomRef.current + e.deltaY * 0.005));
+    zoomRef.current = Math.max(4, Math.min(10, zoomRef.current + e.deltaY * 0.005));
     if (cameraRef.current) cameraRef.current.position.z = zoomRef.current;
   };
   const resetView = () => {
@@ -154,7 +154,7 @@ export default function CrownViewer3D() {
     if (cameraRef.current) { zoomRef.current = 6.5; cameraRef.current.position.z = 6.5; }
   };
   const zoom = (dir) => {
-    zoomRef.current = Math.max(2.5, Math.min(10, zoomRef.current + dir * 0.5));
+    zoomRef.current = Math.max(4, Math.min(10, zoomRef.current + dir * 0.5));
     if (cameraRef.current) cameraRef.current.position.z = zoomRef.current;
   };
 
