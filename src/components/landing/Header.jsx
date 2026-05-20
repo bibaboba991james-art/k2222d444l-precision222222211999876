@@ -31,12 +31,38 @@ export default function Header() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16 md:h-20">
           {/* Logo */}
-          <a href="#" className="flex items-center gap-2">
-            <span className="text-2xl md:text-3xl font-inter font-bold tracking-tight">
-              <span className="text-cyan text-glow">К</span>
-              <span className="text-foreground">З</span>
-              <span className="text-foreground">Л</span>
-            </span>
+          <a href="#" className="flex items-center gap-3 group">
+            {/* Hexagon emblem */}
+            <div className="relative w-9 h-9 flex-shrink-0">
+              <svg viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-full">
+                {/* Hexagon outline */}
+                <polygon
+                  points="18,2 32,10 32,26 18,34 4,26 4,10"
+                  stroke="#00E5FF"
+                  strokeWidth="1.5"
+                  fill="rgba(0,229,255,0.06)"
+                  className="transition-all duration-300 group-hover:fill-[rgba(0,229,255,0.12)]"
+                />
+                {/* Tooth silhouette */}
+                <path
+                  d="M13 14c0-2.8 1.8-5 5-5s5 2.2 5 5c0 1.5-.5 2.8-1 3.8-.8 1.5-1 3-1 4.2 0 .6-.4 1-1 1h-4c-.6 0-1-.4-1-1 0-1.2-.2-2.7-1-4.2-.5-1-.9-2.3-1-3.8z"
+                  fill="#00E5FF"
+                  opacity="0.85"
+                />
+              </svg>
+              {/* Glow */}
+              <div className="absolute inset-0 rounded-full bg-cyan/10 blur-md opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+            </div>
+
+            {/* Text */}
+            <div className="flex flex-col leading-none">
+              <span className="font-inter font-bold text-xl tracking-[0.15em] text-foreground">
+                КЗЛ
+              </span>
+              <span className="font-mono text-[9px] text-cyan/60 tracking-[0.25em] uppercase mt-0.5">
+                Dental Lab
+              </span>
+            </div>
           </a>
 
           {/* Desktop Nav */}
