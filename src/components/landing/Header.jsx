@@ -50,27 +50,27 @@ export default function Header() {
           <a href="/" className="flex items-center gap-2 group">
             {/* K letter with tooth accent */}
             <div className="relative flex-shrink-0">
-              <svg width="48" height="52" viewBox="0 0 96 104" fill="none" xmlns="http://www.w3.org/2000/svg" className="transition-all duration-300 group-hover:drop-shadow-[0_0_12px_rgba(0,229,255,0.7)]">
+              <svg width="56" height="56" viewBox="0 0 112 112" fill="none" xmlns="http://www.w3.org/2000/svg" className="transition-all duration-300 group-hover:drop-shadow-[0_0_12px_rgba(0,229,255,0.7)]">
                 {/* Big К letter */}
                 <text
-                  x="4"
-                  y="86"
+                  x="2"
+                  y="92"
                   fontFamily="Arial Black, Arial, sans-serif"
                   fontWeight="900"
-                  fontSize="88"
+                  fontSize="94"
                   fill="#00E5FF"
                 >К</text>
-                {/* Small tooth accent — top right of К */}
-                <g transform="translate(62, 14) scale(0.9)">
+                {/* Tooth accent — sits at junction of К diagonals, right side */}
+                <g transform="translate(68, 28)">
                   {/* tooth body */}
                   <path
-                    d="M 12,2 C 8,2 4,4 2,8 C 0,12 1,18 2,22 C 3,26 5,30 7,34 L 8.5,40 L 10,34 L 11,32 L 12,31 L 13,32 L 14,34 L 15.5,40 L 17,34 C 19,30 21,26 22,22 C 23,18 24,12 22,8 C 20,4 16,2 12,2 Z"
+                    d="M 14,2 C 9,2 4,5 2,10 C 0,15 1,22 3,28 C 5,34 7,39 9,44 L 11,54 L 13,44 L 14,41 L 15,44 L 17,54 L 19,44 C 21,39 23,34 25,28 C 27,22 28,15 26,10 C 24,5 19,2 14,2 Z"
                     fill="#00E5FF"
                   />
                   {/* highlight */}
                   <path
-                    d="M 6,7 C 7,5 9,4 11,4 C 10,6 8,8 7,10 C 6.5,9 6,8 6,7 Z"
-                    fill="rgba(255,255,255,0.35)"
+                    d="M 6,8 C 8,5 11,4 13,4 C 12,7 9,10 8,13 C 7,11 6,9 6,8 Z"
+                    fill="rgba(255,255,255,0.4)"
                   />
                 </g>
               </svg>
