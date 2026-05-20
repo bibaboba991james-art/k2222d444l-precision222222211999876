@@ -116,8 +116,7 @@ export default function CrownViewer3D() {
         cameraAngle.current.x += rotVelocity.current.x;
         cameraAngle.current.y += rotVelocity.current.y;
       }
-      cameraAngle.current.x = Math.max(-0.8, Math.min(1.0, cameraAngle.current.x));
-      cameraAngle.current.y = Math.max(-0.6, Math.min(0.6, cameraAngle.current.y));
+
       
       const radius = zoomRef.current;
       camera.position.x = Math.sin(cameraAngle.current.y) * Math.cos(cameraAngle.current.x) * radius;
