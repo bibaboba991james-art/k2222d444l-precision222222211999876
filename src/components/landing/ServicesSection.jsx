@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
+import { ArrowUpRight } from 'lucide-react';
 
 const CROWN_IMG = 'https://media.base44.com/images/public/6a0d5f41b02c752e7da9527b/8fbe3a2af_generated_04271a77.png';
 const BRIDGE_IMG = 'https://media.base44.com/images/public/6a0d5f41b02c752e7da9527b/62b33d2e6_generated_e42ad74b.png';
@@ -16,6 +17,7 @@ const services = [
       { label: 'Фрезеровка', value: '~25 мин' },
     ],
     desc: 'Высокоэстетичные реставрации из высокотранслюцентного циркония. Естественная прозрачность и цветопередача.',
+    tag: 'Топ выбор',
   },
   {
     title: 'МОСТЫ',
@@ -27,6 +29,7 @@ const services = [
       { label: 'Гарантия', value: '5 лет' },
     ],
     desc: 'Мостовидные протезы любой протяженности. Цифровое проектирование обеспечивает идеальную посадку.',
+    tag: null,
   },
   {
     title: 'ВИНИРЫ',
@@ -38,10 +41,13 @@ const services = [
       { label: 'Срок', value: '3 дня' },
     ],
     desc: 'Ультратонкие виниры из прессованной керамики. Безупречная эстетика и естественный вид.',
+    tag: null,
   },
 ];
 
 export default function ServicesSection() {
+  const [hovered, setHovered] = useState(null);
+
   return (
     <section id="services" className="relative py-24 md:py-32">
       <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-cyan/20 to-transparent" />
@@ -76,20 +82,55 @@ export default function ServicesSection() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: '-60px' }}
               transition={{ duration: 0.6, delay: i * 0.12, ease: [0.19, 1, 0.22, 1] }}
-              className="group relative border border-border/50 hover:border-cyan/30 rounded-sm bg-card/30 hover:bg-card/60 transition-all duration-500 overflow-hidden"
+              onMouseEnter={() => setHovered(i)}
+              onMouseLeave={() => setHovered(null)}
+              className="group relative border rounded-sm overflow-hidden cursor-pointer transition-all duration-500"
+              style={{
+                borderColor: hovered === i ? 'rgba(0,229,255,0.4)' : 'rgba(255,255,255,0.08)',
+                background: hovered === i
+                  ? 'linear-gradient(135deg, rgba(0,229,255,0.06) 0%, rgba(13,31,60,0.9) 100%)'
+                  : 'rgba(22,35,58,0.3)',
+                boxShadow: hovered === i
+                  ? '0 0 40px rgba(0,229,255,0.08), inset 0 0 40px rgba(0,229,255,0.03)'
+                  : 'none',
+              }}
             >
+              {/* Top tag */}
+              {service.tag && (
+                <div className="absolute top-3 right-3 z-10 font-mono text-[9px] uppercase tracking-wider px-2 py-1 bg-cyan text-obsidian rounded-sm font-semibold">
+                  {service.tag}
+                </div>
+              )}
+
+              {/* Arrow icon on hover */}
+              <div className={`absolute top-3 left-3 z-10 w-7 h-7 rounded-sm border border-cyan/30 bg-obsidian/70 flex items-center justify-center transition-all duration-300 ${hovered === i ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-1'}`}>
+                <ArrowUpRight className="w-3.5 h-3.5 text-cyan" />
+              </div>
+
               {/* Image */}
               <div className="relative aspect-square overflow-hidden">
                 <img
                   src={service.image}
                   alt={service.subtitle}
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                  className="w-full h-full object-cover transition-transform duration-700"
+                  style={{ transform: hovered === i ? 'scale(1.08)' : 'scale(1)' }}
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-obsidian via-obsidian/40 to-transparent" />
+                {/* Gradient overlay — brightens slightly on hover */}
+                <div
+                  className="absolute inset-0 transition-all duration-500"
+                  style={{
+                    background: hovered === i
+                      ? 'linear-gradient(to top, rgba(4,8,15,0.95) 0%, rgba(0,229,255,0.04) 60%, transparent 100%)'
+                      : 'linear-gradient(to top, rgba(4,8,15,1) 0%, rgba(4,8,15,0.5) 50%, transparent 100%)',
+                  }}
+                />
 
                 {/* Large background title */}
                 <div className="absolute bottom-4 left-4 right-4">
-                  <div className="font-inter font-bold text-3xl text-foreground/10 tracking-wider">
+                  <div
+                    className="font-inter font-bold text-3xl tracking-wider transition-all duration-500"
+                    style={{ color: hovered === i ? 'rgba(0,229,255,0.2)' : 'rgba(255,255,255,0.08)' }}
+                  >
                     {service.title}
                   </div>
                 </div>
@@ -97,7 +138,7 @@ export default function ServicesSection() {
 
               {/* Content */}
               <div className="p-5">
-                <h3 className="font-inter font-bold text-lg text-foreground mb-1">
+                <h3 className="font-inter font-bold text-lg text-foreground mb-1 transition-colors duration-300 group-hover:text-cyan">
                   {service.subtitle}
                 </h3>
                 <p className="text-sm text-muted-foreground leading-relaxed mb-4">
@@ -105,7 +146,9 @@ export default function ServicesSection() {
                 </p>
 
                 {/* Specs grid */}
-                <div className="grid grid-cols-3 gap-2 pt-4 border-t border-border/50">
+                <div className="grid grid-cols-3 gap-2 pt-4 border-t transition-colors duration-300"
+                  style={{ borderColor: hovered === i ? 'rgba(0,229,255,0.2)' : 'rgba(255,255,255,0.08)' }}
+                >
                   {service.specs.map((spec) => (
                     <div key={spec.label}>
                       <div className="font-mono text-xs text-cyan font-medium">
@@ -116,6 +159,12 @@ export default function ServicesSection() {
                       </div>
                     </div>
                   ))}
+                </div>
+
+                {/* CTA link on hover */}
+                <div className={`mt-4 flex items-center gap-1.5 font-mono text-[10px] text-cyan uppercase tracking-wider transition-all duration-300 ${hovered === i ? 'opacity-100' : 'opacity-0'}`}>
+                  <span>Подробнее о услуге</span>
+                  <ArrowUpRight className="w-3 h-3" />
                 </div>
               </div>
             </motion.div>
