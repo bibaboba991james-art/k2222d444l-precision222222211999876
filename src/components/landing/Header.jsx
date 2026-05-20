@@ -48,44 +48,31 @@ export default function Header() {
         <div className="flex items-center justify-between h-16 md:h-20">
           {/* Logo */}
           <a href="/" className="flex items-center gap-2 group">
-            {/* Tooth silhouette with К letter inside */}
+            {/* K letter with tooth accent */}
             <div className="relative flex-shrink-0">
-              <svg width="44" height="52" viewBox="0 0 88 104" fill="none" xmlns="http://www.w3.org/2000/svg" className="transition-all duration-300 group-hover:drop-shadow-[0_0_12px_rgba(0,229,255,0.7)]">
-                {/* Rounded tooth silhouette — two cusps top, two roots bottom */}
-                <path
-                  d="
-                    M 44,6
-                    C 36,6 26,8 20,16
-                    C 14,24 14,36 16,46
-                    C 18,56 22,64 26,72
-                    L 30,88 L 34,74 L 38,68
-                    L 44,66 L 50,68 L 54,74
-                    L 58,88 L 62,72
-                    C 66,64 70,56 72,46
-                    C 74,36 74,24 68,16
-                    C 62,8 52,6 44,6 Z
-                  "
-                  fill="#00E5FF"
-                />
-                {/* Two cusps notch at top */}
-                <path
-                  d="M 28,18 C 32,12 38,14 44,18 C 50,14 56,12 60,18"
-                  fill="#04080F"
-                  stroke="#04080F"
-                  strokeWidth="4"
-                  strokeLinecap="round"
-                />
-                {/* Letter К */}
+              <svg width="48" height="52" viewBox="0 0 96 104" fill="none" xmlns="http://www.w3.org/2000/svg" className="transition-all duration-300 group-hover:drop-shadow-[0_0_12px_rgba(0,229,255,0.7)]">
+                {/* Big К letter */}
                 <text
-                  x="44"
-                  y="50"
-                  textAnchor="middle"
-                  dominantBaseline="middle"
-                  fontFamily="Arial, sans-serif"
-                  fontWeight="800"
-                  fontSize="34"
-                  fill="#04080F"
+                  x="4"
+                  y="86"
+                  fontFamily="Arial Black, Arial, sans-serif"
+                  fontWeight="900"
+                  fontSize="88"
+                  fill="#00E5FF"
                 >К</text>
+                {/* Small tooth accent — top right of К */}
+                <g transform="translate(62, 14) scale(0.9)">
+                  {/* tooth body */}
+                  <path
+                    d="M 12,2 C 8,2 4,4 2,8 C 0,12 1,18 2,22 C 3,26 5,30 7,34 L 8.5,40 L 10,34 L 11,32 L 12,31 L 13,32 L 14,34 L 15.5,40 L 17,34 C 19,30 21,26 22,22 C 23,18 24,12 22,8 C 20,4 16,2 12,2 Z"
+                    fill="#00E5FF"
+                  />
+                  {/* highlight */}
+                  <path
+                    d="M 6,7 C 7,5 9,4 11,4 C 10,6 8,8 7,10 C 6.5,9 6,8 6,7 Z"
+                    fill="rgba(255,255,255,0.35)"
+                  />
+                </g>
               </svg>
             </div>
 
