@@ -32,6 +32,7 @@ export default function CrownViewer3D() {
   const isDragging = useRef(false);
   const prevMouse = useRef({ x: 0, y: 0 });
   const rotVelocity = useRef({ x: 0, y: 0 });
+  const cameraAngle = useRef({ x: 0.15, y: 0 });
   const zoomRef = useRef(6.5);
 
   const [activeTab, setActiveTab] = useState('zirconia');
@@ -109,14 +110,21 @@ export default function CrownViewer3D() {
     // Animate
     const animate = () => {
       frameRef.current = requestAnimationFrame(animate);
-      if (!isDragging.current && modelRef.current) {
+      if (!isDragging.current) {
         rotVelocity.current.x *= 0.88;
         rotVelocity.current.y *= 0.88;
-        modelRef.current.rotation.y += rotVelocity.current.y;
-        modelRef.current.rotation.x += rotVelocity.current.x;
-        modelRef.current.rotation.x = Math.max(-0.8, Math.min(1.0, modelRef.current.rotation.x));
-        modelRef.current.rotation.y = Math.max(-0.6, Math.min(0.6, modelRef.current.rotation.y));
+        cameraAngle.current.x += rotVelocity.current.x;
+        cameraAngle.current.y += rotVelocity.current.y;
       }
+      cameraAngle.current.x = Math.max(-0.8, Math.min(1.0, cameraAngle.current.x));
+      cameraAngle.current.y = Math.max(-0.6, Math.min(0.6, cameraAngle.current.y));
+      
+      const radius = zoomRef.current;
+      camera.position.x = Math.sin(cameraAngle.current.y) * Math.cos(cameraAngle.current.x) * radius;
+      camera.position.y = Math.sin(cameraAngle.current.x) * radius;
+      camera.position.z = Math.cos(cameraAngle.current.y) * Math.cos(cameraAngle.current.x) * radius;
+      camera.lookAt(0, 0, 0);
+      
       renderer.render(scene, camera);
     };
     animate();
@@ -142,12 +150,12 @@ export default function CrownViewer3D() {
 
   const onPointerDown = (e) => { isDragging.current = true; prevMouse.current = { x: e.clientX, y: e.clientY }; };
   const onPointerMove = (e) => {
-    if (!isDragging.current || !modelRef.current) return;
+    if (!isDragging.current) return;
     const dx = e.clientX - prevMouse.current.x, dy = e.clientY - prevMouse.current.y;
     rotVelocity.current.y = dx * 0.008;
     rotVelocity.current.x = dy * 0.008;
-    modelRef.current.rotation.y = Math.max(-0.6, Math.min(0.6, modelRef.current.rotation.y + dx * 0.008));
-    modelRef.current.rotation.x = Math.max(-0.8, Math.min(1.0, modelRef.current.rotation.x + dy * 0.008));
+    cameraAngle.current.y += dx * 0.008;
+    cameraAngle.current.x += dy * 0.008;
     prevMouse.current = { x: e.clientX, y: e.clientY };
   };
   const onPointerUp = () => { isDragging.current = false; };
@@ -157,8 +165,9 @@ export default function CrownViewer3D() {
     if (cameraRef.current) cameraRef.current.position.z = zoomRef.current;
   };
   const resetView = () => {
-    if (modelRef.current) { modelRef.current.rotation.set(0.15, 0, 0); rotVelocity.current = { x: 0, y: 0 }; }
-    if (cameraRef.current) { zoomRef.current = 6.5; cameraRef.current.position.z = 6.5; }
+    cameraAngle.current = { x: 0.15, y: 0 };
+    rotVelocity.current = { x: 0, y: 0 };
+    zoomRef.current = 6.5;
   };
   const zoom = (dir) => {
     zoomRef.current = Math.max(4, Math.min(10, zoomRef.current + dir * 0.5));
