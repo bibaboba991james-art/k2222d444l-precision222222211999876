@@ -108,7 +108,7 @@ export default function CrownViewer3D() {
         rotVelocity.current.y *= 0.88;
         modelRef.current.rotation.y += rotVelocity.current.y;
         modelRef.current.rotation.x += rotVelocity.current.x;
-        modelRef.current.rotation.x = Math.max(-0.6, Math.min(0.6, modelRef.current.rotation.x));
+        modelRef.current.rotation.x = Math.max(-Math.PI, Math.min(Math.PI, modelRef.current.rotation.x));
       }
       renderer.render(scene, camera);
     };
@@ -140,7 +140,7 @@ export default function CrownViewer3D() {
     rotVelocity.current.y = dx * 0.012;
     rotVelocity.current.x = dy * 0.012;
     modelRef.current.rotation.y += dx * 0.012;
-    modelRef.current.rotation.x = Math.max(-0.6, Math.min(0.6, modelRef.current.rotation.x + dy * 0.012));
+    modelRef.current.rotation.x = Math.max(-Math.PI, Math.min(Math.PI, modelRef.current.rotation.x + dy * 0.012));
     prevMouse.current = { x: e.clientX, y: e.clientY };
   };
   const onPointerUp = () => { isDragging.current = false; };
