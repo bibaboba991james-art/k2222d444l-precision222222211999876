@@ -3,8 +3,7 @@ import { motion } from 'framer-motion';
 import { ArrowDown } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
-const HERO_IMG = 'https://media.base44.com/images/public/6a0d5f41b02c752e7da9527b/8f81e76ef_generated_image.png';
-const EXOCAD_IMG = 'https://media.base44.com/images/public/6a0d5f41b02c752e7da9527b/cea9d7adb_generated_image.png';
+const HERO_IMG = 'https://media.base44.com/images/public/6a0d5f41b02c752e7da9527b/d9083b8fb_generated_image.png';
 
 export default function HeroSection() {
   return (
@@ -91,43 +90,58 @@ export default function HeroSection() {
             </div>
           </motion.div>
 
-          {/* Right — images */}
+          {/* Right — Fullscreen overlay */}
           <motion.div
             initial={{ opacity: 0, x: 40 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8, delay: 0.2, ease: [0.19, 1, 0.22, 1] }}
             className="order-1 lg:order-2 relative"
           >
-            <div className="relative">
-              {/* Glow behind image */}
-              <div className="absolute inset-0 bg-cyan/5 rounded-2xl blur-3xl scale-110" />
-
-              {/* Main jaw image */}
+            <div className="relative rounded-xl overflow-hidden border border-cyan/15 glow-cyan">
+              {/* Main heatmap image — fullscreen */}
               <img
                 src={HERO_IMG}
-                alt="3D модель верхней челюсти с цветовой картой анализа"
-                className="relative w-full max-w-lg mx-auto lg:max-w-none rounded-lg"
+                alt="Heatmap Analysis — Exocad DentalCAD"
+                className="w-full object-cover"
               />
 
-              {/* Exocad interface overlay — bottom right */}
-              <div className="absolute -bottom-4 -right-2 sm:bottom-0 sm:right-0 w-48 sm:w-64 border border-cyan/20 rounded-sm overflow-hidden glow-cyan">
-                <img
-                  src={EXOCAD_IMG}
-                  alt="Интерфейс Exocad"
-                  className="w-full"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-obsidian/60 to-transparent" />
-                <div className="absolute bottom-2 left-2 font-mono text-[10px] text-cyan/70">
-                  EXOCAD DentalCAD
-                </div>
-              </div>
+              {/* Dark gradient overlay on left side */}
+              <div className="absolute inset-0 bg-gradient-to-r from-obsidian/60 via-transparent to-transparent" />
+              {/* Bottom gradient */}
+              <div className="absolute inset-0 bg-gradient-to-t from-obsidian/50 via-transparent to-transparent" />
 
-              {/* Tech label top left */}
-              <div className="absolute top-4 left-4 flex items-center gap-2 bg-obsidian/80 backdrop-blur-sm border border-cyan/20 rounded-sm px-3 py-1.5">
+              {/* HUD grid overlay */}
+              <div className="absolute inset-0 opacity-[0.04]"
+                style={{
+                  backgroundImage: `linear-gradient(rgba(0,229,255,0.8) 1px, transparent 1px), linear-gradient(90deg, rgba(0,229,255,0.8) 1px, transparent 1px)`,
+                  backgroundSize: '32px 32px',
+                }}
+              />
+
+              {/* Scanning line */}
+              <div className="absolute left-0 right-0 h-px bg-gradient-to-r from-transparent via-cyan/40 to-transparent animate-scan" />
+
+              {/* Top-left: Heatmap Analysis label */}
+              <div className="absolute top-4 left-4 flex items-center gap-2">
                 <div className="w-2 h-2 rounded-full bg-cyan animate-pulse-glow" />
-                <span className="font-mono text-[10px] text-cyan/80 uppercase tracking-wider">
+                <span className="font-mono text-[10px] text-cyan/90 uppercase tracking-[0.2em]">
                   Heatmap Analysis
                 </span>
+              </div>
+
+              {/* Bottom-left: Exocad badge */}
+              <div className="absolute bottom-4 left-4 bg-obsidian/70 backdrop-blur-sm border border-cyan/20 rounded-sm px-3 py-1.5">
+                <div className="font-mono text-[9px] text-cyan/50 uppercase tracking-wider mb-0.5">Powered by</div>
+                <div className="font-mono text-xs text-foreground font-semibold">exocad DentalCAD</div>
+              </div>
+
+              {/* Bottom-right: scale bar */}
+              <div className="absolute bottom-4 right-4 flex flex-col items-end gap-1">
+                <div className="flex items-center gap-1.5">
+                  <span className="font-mono text-[9px] text-red-400">Max</span>
+                  <div className="w-3 h-16 rounded-sm" style={{background: 'linear-gradient(to bottom, #ff2200, #ff8800, #ffff00, #00ff88, #0088ff)'}} />
+                  <span className="font-mono text-[9px] text-cyan/70">Min</span>
+                </div>
               </div>
             </div>
           </motion.div>
