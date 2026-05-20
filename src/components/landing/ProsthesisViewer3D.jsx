@@ -1,41 +1,108 @@
 import React, { useEffect, useRef, useState } from 'react';
 import * as THREE from 'three';
-import { STLLoader } from 'three/examples/jsm/loaders/STLLoader.js';
-import { RotateCcw, ZoomIn, ZoomOut, Move, Loader2 } from 'lucide-react';
+import { RotateCcw, ZoomIn, ZoomOut, Move } from 'lucide-react';
 
-// Thingiverse CDN proxy via allorigins to bypass CORS
-const proxy = (url) => `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`;
+const MATERIALS = {
+  acrylic: { label: 'Акрил', baseColor: 0xd46060, teethColor: 0xfaf5ee, roughness: 0.5, metalness: 0.0 },
+  nylon:   { label: 'Нейлон', baseColor: 0xc97878, teethColor: 0xfcf8f2, roughness: 0.35, metalness: 0.0 },
+  metal:   { label: 'Металл', baseColor: 0xa0a0b0, teethColor: 0xf5f0e8, roughness: 0.3, metalness: 0.7 },
+};
 
-const STL_FILES = [
-  {
-    url: 'https://cdn.thingiverse.com/assets/9a/cc/18/6f/fd/Maxillary_Denture_Base.stl',
-    color: 0xe07070,
-    roughness: 0.55,
-    metalness: 0.0,
-    label: 'base',
-  },
-  {
-    url: 'https://cdn.thingiverse.com/assets/14/33/7c/9e/a3/Anterior_Teeth.stl',
-    color: 0xf5f0e8,
-    roughness: 0.2,
-    metalness: 0.0,
-    label: 'anterior',
-  },
-  {
-    url: 'https://cdn.thingiverse.com/assets/f6/d4/a4/5e/d1/Posterior_Teeth_1.stl',
-    color: 0xf5f0e8,
-    roughness: 0.2,
-    metalness: 0.0,
-    label: 'posterior1',
-  },
-  {
-    url: 'https://cdn.thingiverse.com/assets/8c/7a/6b/3e/9f/Posterior_Teeth_2.stl',
-    color: 0xf5f0e8,
-    roughness: 0.2,
-    metalness: 0.0,
-    label: 'posterior2',
-  },
-];
+function buildDenture(scene, matConfig) {
+  const group = new THREE.Group();
+
+  const baseMat = new THREE.MeshStandardMaterial({
+    color: matConfig.baseColor, roughness: matConfig.roughness, metalness: matConfig.metalness,
+  });
+  const teethMat = new THREE.MeshStandardMaterial({
+    color: matConfig.teethColor, roughness: 0.15, metalness: 0.0,
+  });
+  const gingivaMat = new THREE.MeshStandardMaterial({
+    color: matConfig.baseColor, roughness: 0.6, metalness: 0.0,
+  });
+
+  // === DENTURE BASE (horseshoe palate shape) ===
+  // Main arch shape using a curved tube path
+  const archShape = new THREE.Shape();
+  // Horseshoe arch - upper denture viewed from below
+  archShape.moveTo(-2.8, 0);
+  archShape.bezierCurveTo(-2.8, -2.2, -1.8, -3.4, 0, -3.4);
+  archShape.bezierCurveTo(1.8, -3.4, 2.8, -2.2, 2.8, 0);
+  archShape.lineTo(2.2, 0);
+  archShape.bezierCurveTo(2.2, -1.8, 1.5, -2.8, 0, -2.8);
+  archShape.bezierCurveTo(-1.5, -2.8, -2.2, -1.8, -2.2, 0);
+  archShape.lineTo(-2.8, 0);
+
+  const extrudeSettings = { depth: 0.6, bevelEnabled: true, bevelThickness: 0.12, bevelSize: 0.1, bevelSegments: 4 };
+  const baseGeo = new THREE.ExtrudeGeometry(archShape, extrudeSettings);
+  const baseMesh = new THREE.Mesh(baseGeo, baseMat);
+  baseMesh.position.set(0, -0.3, 0);
+  baseMesh.rotation.x = Math.PI / 2;
+  group.add(baseMesh);
+
+  // Palate plate (fills center of horseshoe)
+  const palateShape = new THREE.Shape();
+  palateShape.moveTo(-2.2, 0);
+  palateShape.bezierCurveTo(-2.2, -1.8, -1.5, -2.8, 0, -2.8);
+  palateShape.bezierCurveTo(1.5, -2.8, 2.2, -1.8, 2.2, 0);
+  palateShape.lineTo(-2.2, 0);
+  const palateGeo = new THREE.ExtrudeGeometry(palateShape, { depth: 0.25, bevelEnabled: false });
+  const palateMesh = new THREE.Mesh(palateGeo, baseMat);
+  palateMesh.position.set(0, -0.3, 0.08);
+  palateMesh.rotation.x = Math.PI / 2;
+  group.add(palateMesh);
+
+  // === TEETH (14 teeth along the arch) ===
+  const teethData = [
+    // [angle_deg, x, z, width, height, isIncisor]
+    // Front teeth (incisors & canines)
+    { a:  90, x:  0.0,  z: -3.1, w: 0.52, h: 0.9,  incisor: true  },
+    { a:  90, x:  0.6,  z: -3.0, w: 0.50, h: 0.85, incisor: true  },
+    { a:  90, x: -0.6,  z: -3.0, w: 0.50, h: 0.85, incisor: true  },
+    { a:  90, x:  1.15, z: -2.85, w: 0.50, h: 0.9,  incisor: true  },
+    { a:  90, x: -1.15, z: -2.85, w: 0.50, h: 0.9,  incisor: true  },
+    // Canines
+    { a:  75, x:  1.7,  z: -2.5, w: 0.50, h: 1.0,  incisor: false },
+    { a: 105, x: -1.7,  z: -2.5, w: 0.50, h: 1.0,  incisor: false },
+    // Premolars
+    { a:  60, x:  2.2,  z: -1.9, w: 0.55, h: 0.85, incisor: false },
+    { a: 120, x: -2.2,  z: -1.9, w: 0.55, h: 0.85, incisor: false },
+    { a:  50, x:  2.55, z: -1.1, w: 0.58, h: 0.82, incisor: false },
+    { a: 130, x: -2.55, z: -1.1, w: 0.58, h: 0.82, incisor: false },
+    // Molars
+    { a:  40, x:  2.75, z: -0.2, w: 0.65, h: 0.78, incisor: false },
+    { a: 140, x: -2.75, z: -0.2, w: 0.65, h: 0.78, incisor: false },
+  ];
+
+  teethData.forEach((t) => {
+    const angleRad = THREE.MathUtils.degToRad(t.a);
+    // Tooth body
+    const toothGeo = new THREE.CylinderGeometry(t.w * 0.42, t.w * 0.38, t.h, 12, 1);
+    const toothMesh = new THREE.Mesh(toothGeo, teethMat);
+    toothMesh.position.set(t.x, t.h / 2 + 0.28, t.z);
+    toothMesh.rotation.y = Math.PI / 2 - angleRad;
+    group.add(toothMesh);
+
+    // Tooth top cap (occlusal surface - rounded)
+    const capGeo = new THREE.SphereGeometry(t.w * 0.42, 10, 8, 0, Math.PI * 2, 0, Math.PI * 0.5);
+    const capMesh = new THREE.Mesh(capGeo, teethMat);
+    capMesh.position.set(t.x, t.h + 0.28, t.z);
+    capMesh.rotation.y = Math.PI / 2 - angleRad;
+    group.add(capMesh);
+
+    // Gingiva ridge around each tooth
+    const gumGeo = new THREE.CylinderGeometry(t.w * 0.52, t.w * 0.48, 0.15, 12, 1);
+    const gumMesh = new THREE.Mesh(gumGeo, gingivaMat);
+    gumMesh.position.set(t.x, 0.35, t.z);
+    group.add(gumMesh);
+  });
+
+  // Center and add to scene
+  group.position.set(0, 0, 0);
+  group.rotation.x = 0.4;
+  scene.add(group);
+  return group;
+}
 
 export default function ProsthesisViewer3D() {
   const mountRef = useRef(null);
@@ -47,116 +114,54 @@ export default function ProsthesisViewer3D() {
   const isDragging = useRef(false);
   const prevMouse = useRef({ x: 0, y: 0 });
   const rotVelocity = useRef({ x: 0, y: 0 });
-  const zoomRef = useRef(120);
+  const zoomRef = useRef(9);
 
-  const [loading, setLoading] = useState(true);
-  const [loadError, setLoadError] = useState(false);
-  const [loadedCount, setLoadedCount] = useState(0);
+  const [activeMat, setActiveMat] = useState('acrylic');
 
   useEffect(() => {
     const el = mountRef.current;
     if (!el) return;
-    const W = el.clientWidth;
-    const H = el.clientHeight;
+    const W = el.clientWidth, H = el.clientHeight;
 
     const scene = new THREE.Scene();
     sceneRef.current = scene;
 
-    const camera = new THREE.PerspectiveCamera(38, W / H, 0.1, 2000);
-    camera.position.set(0, 20, zoomRef.current);
+    const camera = new THREE.PerspectiveCamera(38, W / H, 0.1, 200);
+    camera.position.set(0, 1.5, zoomRef.current);
     cameraRef.current = camera;
 
     const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     renderer.setSize(W, H);
+    renderer.shadowMap.enabled = true;
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
     renderer.toneMappingExposure = 1.3;
     el.appendChild(renderer.domElement);
     rendererRef.current = renderer;
 
     // Lights
-    scene.add(new THREE.AmbientLight(0xffffff, 0.8));
+    scene.add(new THREE.AmbientLight(0xffffff, 0.7));
     const key = new THREE.DirectionalLight(0xffffff, 2.5);
-    key.position.set(50, 100, 80);
+    key.position.set(4, 8, 6);
+    key.castShadow = true;
     scene.add(key);
     const fill = new THREE.DirectionalLight(0x00e5ff, 0.5);
-    fill.position.set(-80, 40, -40);
+    fill.position.set(-6, 2, -4);
     scene.add(fill);
-    const rim = new THREE.DirectionalLight(0xffffff, 0.8);
-    rim.position.set(0, -60, -100);
+    const rim = new THREE.DirectionalLight(0xffd0a0, 0.6);
+    rim.position.set(0, -5, -8);
     scene.add(rim);
 
-    const group = new THREE.Group();
-    groupRef.current = group;
-    scene.add(group);
-
-    const loader = new STLLoader();
-    let loaded = 0;
-    let errored = false;
-
-    const tryLoad = (fileInfo) => {
-      return new Promise((resolve) => {
-        // Try direct URL first, then proxy
-        const tryUrl = (url, useProxy) => {
-          loader.load(
-            useProxy ? proxy(url) : url,
-            (geometry) => {
-              geometry.computeVertexNormals();
-              const mat = new THREE.MeshStandardMaterial({
-                color: fileInfo.color,
-                roughness: fileInfo.roughness,
-                metalness: fileInfo.metalness,
-              });
-              const mesh = new THREE.Mesh(geometry, mat);
-              group.add(mesh);
-              loaded++;
-              setLoadedCount(loaded);
-              resolve(true);
-            },
-            undefined,
-            () => {
-              if (!useProxy) {
-                tryUrl(url, true);
-              } else {
-                resolve(false);
-              }
-            }
-          );
-        };
-        tryUrl(fileInfo.url, false);
-      });
-    };
-
-    Promise.all(STL_FILES.map(tryLoad)).then((results) => {
-      const anyLoaded = results.some(Boolean);
-      if (!anyLoaded) {
-        setLoadError(true);
-        setLoading(false);
-        return;
-      }
-
-      // Center and scale the group
-      const box = new THREE.Box3().setFromObject(group);
-      const center = box.getCenter(new THREE.Vector3());
-      const size = box.getSize(new THREE.Vector3());
-      const maxDim = Math.max(size.x, size.y, size.z);
-      const scale = 80 / maxDim;
-
-      group.scale.setScalar(scale);
-      group.position.set(-center.x * scale, -center.y * scale, -center.z * scale);
-      group.rotation.x = 0.3;
-
-      setLoading(false);
-    });
+    groupRef.current = buildDenture(scene, MATERIALS[activeMat]);
 
     const animate = () => {
       frameRef.current = requestAnimationFrame(animate);
       if (!isDragging.current && groupRef.current) {
         rotVelocity.current.x *= 0.92;
         rotVelocity.current.y *= 0.92;
-        groupRef.current.rotation.y += rotVelocity.current.y + 0.003;
+        groupRef.current.rotation.y += rotVelocity.current.y + 0.004;
         groupRef.current.rotation.x += rotVelocity.current.x;
-        groupRef.current.rotation.x = Math.max(-0.6, Math.min(0.8, groupRef.current.rotation.x));
+        groupRef.current.rotation.x = Math.max(-0.3, Math.min(1.0, groupRef.current.rotation.x));
       }
       renderer.render(scene, camera);
     };
@@ -164,9 +169,7 @@ export default function ProsthesisViewer3D() {
 
     const onResize = () => {
       const w = el.clientWidth, h = el.clientHeight;
-      camera.aspect = w / h;
-      camera.updateProjectionMatrix();
-      renderer.setSize(w, h);
+      camera.aspect = w / h; camera.updateProjectionMatrix(); renderer.setSize(w, h);
     };
     window.addEventListener('resize', onResize);
 
@@ -178,30 +181,35 @@ export default function ProsthesisViewer3D() {
     };
   }, []);
 
+  // Swap materials on tab change
+  useEffect(() => {
+    if (!sceneRef.current || !groupRef.current) return;
+    sceneRef.current.remove(groupRef.current);
+    groupRef.current = buildDenture(sceneRef.current, MATERIALS[activeMat]);
+  }, [activeMat]);
+
   const onPointerDown = (e) => { isDragging.current = true; prevMouse.current = { x: e.clientX, y: e.clientY }; };
   const onPointerMove = (e) => {
     if (!isDragging.current || !groupRef.current) return;
-    const dx = e.clientX - prevMouse.current.x;
-    const dy = e.clientY - prevMouse.current.y;
+    const dx = e.clientX - prevMouse.current.x, dy = e.clientY - prevMouse.current.y;
     rotVelocity.current.y = dx * 0.012;
     rotVelocity.current.x = dy * 0.012;
     groupRef.current.rotation.y += dx * 0.012;
-    groupRef.current.rotation.x += dy * 0.012;
-    groupRef.current.rotation.x = Math.max(-0.6, Math.min(0.8, groupRef.current.rotation.x));
+    groupRef.current.rotation.x = Math.max(-0.3, Math.min(1.0, groupRef.current.rotation.x + dy * 0.012));
     prevMouse.current = { x: e.clientX, y: e.clientY };
   };
   const onPointerUp = () => { isDragging.current = false; };
   const onWheel = (e) => {
     e.preventDefault();
-    zoomRef.current = Math.max(40, Math.min(250, zoomRef.current + e.deltaY * 0.2));
+    zoomRef.current = Math.max(4, Math.min(18, zoomRef.current + e.deltaY * 0.01));
     if (cameraRef.current) cameraRef.current.position.z = zoomRef.current;
   };
   const resetView = () => {
-    if (groupRef.current) { groupRef.current.rotation.set(0.3, 0, 0); rotVelocity.current = { x: 0, y: 0 }; }
-    if (cameraRef.current) { zoomRef.current = 120; cameraRef.current.position.z = 120; }
+    if (groupRef.current) { groupRef.current.rotation.set(0.4, 0, 0); rotVelocity.current = { x: 0, y: 0 }; }
+    if (cameraRef.current) { zoomRef.current = 9; cameraRef.current.position.z = 9; }
   };
   const zoom = (dir) => {
-    zoomRef.current = Math.max(40, Math.min(250, zoomRef.current + dir * 20));
+    zoomRef.current = Math.max(4, Math.min(18, zoomRef.current + dir * 1.2));
     if (cameraRef.current) cameraRef.current.position.z = zoomRef.current;
   };
 
@@ -217,23 +225,6 @@ export default function ProsthesisViewer3D() {
         onWheel={onWheel}
       />
 
-      {/* Loading overlay */}
-      {loading && (
-        <div className="absolute inset-0 flex flex-col items-center justify-center bg-card/80 backdrop-blur-sm gap-3">
-          <Loader2 className="w-8 h-8 text-cyan animate-spin" />
-          <span className="font-mono text-xs text-cyan/80 uppercase tracking-wider">
-            Загрузка модели... {loadedCount}/{STL_FILES.length}
-          </span>
-        </div>
-      )}
-
-      {/* Error fallback */}
-      {loadError && !loading && (
-        <div className="absolute inset-0 flex flex-col items-center justify-center gap-2">
-          <span className="font-mono text-xs text-muted-foreground">Не удалось загрузить модель</span>
-        </div>
-      )}
-
       {/* HUD grid */}
       <div className="absolute inset-0 pointer-events-none opacity-[0.03]"
         style={{
@@ -247,26 +238,38 @@ export default function ProsthesisViewer3D() {
         <span className="font-mono text-[10px] text-cyan/80 uppercase tracking-[0.2em]">Съёмный протез 3D</span>
       </div>
 
-      {!loading && (
-        <div className="absolute top-4 right-4 pointer-events-none flex items-center gap-1.5 bg-obsidian/70 backdrop-blur-sm border border-cyan/15 rounded-sm px-2.5 py-1">
-          <Move className="w-3 h-3 text-cyan/60" />
-          <span className="font-mono text-[9px] text-muted-foreground">Drag to rotate • Scroll to zoom</span>
-        </div>
-      )}
+      <div className="absolute top-4 right-4 pointer-events-none flex items-center gap-1.5 bg-obsidian/70 backdrop-blur-sm border border-cyan/15 rounded-sm px-2.5 py-1">
+        <Move className="w-3 h-3 text-cyan/60" />
+        <span className="font-mono text-[9px] text-muted-foreground">Drag to rotate • Scroll to zoom</span>
+      </div>
 
-      {!loading && (
-        <div className="absolute right-4 bottom-4 flex flex-col gap-1.5">
-          <button onClick={() => zoom(-1)} className="w-8 h-8 flex items-center justify-center bg-obsidian/80 border border-cyan/20 rounded-sm text-cyan/70 hover:text-cyan hover:border-cyan/40 transition-colors">
-            <ZoomIn className="w-3.5 h-3.5" />
+      {/* Material tabs */}
+      <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-1 bg-obsidian/80 backdrop-blur-sm border border-cyan/20 rounded-sm p-1">
+        {Object.entries(MATERIALS).map(([key, m]) => (
+          <button
+            key={key}
+            onClick={() => setActiveMat(key)}
+            className={`px-4 py-1.5 rounded-sm font-mono text-[10px] uppercase tracking-wider transition-all duration-200 ${
+              activeMat === key ? 'bg-cyan text-obsidian font-semibold' : 'text-muted-foreground hover:text-foreground'
+            }`}
+          >
+            {m.label}
           </button>
-          <button onClick={() => zoom(1)} className="w-8 h-8 flex items-center justify-center bg-obsidian/80 border border-cyan/20 rounded-sm text-cyan/70 hover:text-cyan hover:border-cyan/40 transition-colors">
-            <ZoomOut className="w-3.5 h-3.5" />
-          </button>
-          <button onClick={resetView} className="w-8 h-8 flex items-center justify-center bg-obsidian/80 border border-cyan/20 rounded-sm text-cyan/70 hover:text-cyan hover:border-cyan/40 transition-colors">
-            <RotateCcw className="w-3.5 h-3.5" />
-          </button>
-        </div>
-      )}
+        ))}
+      </div>
+
+      {/* Zoom controls */}
+      <div className="absolute right-4 bottom-4 flex flex-col gap-1.5">
+        <button onClick={() => zoom(-1)} className="w-8 h-8 flex items-center justify-center bg-obsidian/80 border border-cyan/20 rounded-sm text-cyan/70 hover:text-cyan hover:border-cyan/40 transition-colors">
+          <ZoomIn className="w-3.5 h-3.5" />
+        </button>
+        <button onClick={() => zoom(1)} className="w-8 h-8 flex items-center justify-center bg-obsidian/80 border border-cyan/20 rounded-sm text-cyan/70 hover:text-cyan hover:border-cyan/40 transition-colors">
+          <ZoomOut className="w-3.5 h-3.5" />
+        </button>
+        <button onClick={resetView} className="w-8 h-8 flex items-center justify-center bg-obsidian/80 border border-cyan/20 rounded-sm text-cyan/70 hover:text-cyan hover:border-cyan/40 transition-colors">
+          <RotateCcw className="w-3.5 h-3.5" />
+        </button>
+      </div>
     </div>
   );
 }
