@@ -52,10 +52,10 @@ export default function AboutSection() {
               {/* Overlay label */}
               <div className="absolute bottom-4 left-4 bg-obsidian/90 backdrop-blur-sm border border-cyan/20 rounded-sm px-4 py-2">
               <div className="font-mono text-[10px] text-cyan/60 uppercase tracking-wider mb-0.5">
-                CNC Zirconia Milling
+                CNC Precision Milling
               </div>
               <div className="font-mono text-sm text-foreground">
-                5-Axis • Zr Block • 0.01mm
+                5-Axis • CAD/CAM • 0.01mm
               </div>
               </div>
             </div>
