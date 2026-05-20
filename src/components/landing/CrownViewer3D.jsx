@@ -86,7 +86,6 @@ export default function CrownViewer3D() {
         const scale = 2.0 / maxDim;
         model.scale.setScalar(scale);
         model.position.sub(center.multiplyScalar(scale));
-        model.position.y -= 0.2;
 
         applyMaterial(model, MATERIALS['zirconia']);
         scene.add(model);
@@ -105,9 +104,9 @@ export default function CrownViewer3D() {
     const animate = () => {
       frameRef.current = requestAnimationFrame(animate);
       if (!isDragging.current && modelRef.current) {
-        rotVelocity.current.x *= 0.92;
-        rotVelocity.current.y *= 0.92;
-        modelRef.current.rotation.y += rotVelocity.current.y + 0.004;
+        rotVelocity.current.x *= 0.88;
+        rotVelocity.current.y *= 0.88;
+        modelRef.current.rotation.y += rotVelocity.current.y;
         modelRef.current.rotation.x += rotVelocity.current.x;
         modelRef.current.rotation.x = Math.max(-0.6, Math.min(0.6, modelRef.current.rotation.x));
       }
