@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Monitor, Cog, ScanLine, Shield, Zap, Award } from 'lucide-react';
+import CrownViewer3D from './CrownViewer3D';
 
 const SCANNER_IMG = 'https://media.base44.com/images/public/6a0d5f41b02c752e7da9527b/5ad6906c0_generated_image.png';
 const CAD_IMG = 'https://media.base44.com/images/public/6a0d5f41b02c752e7da9527b/b574bf0b3_generated_image.png';
@@ -98,6 +99,48 @@ export default function TechSection() {
             </motion.div>
           ))}
         </div>
+
+        {/* 3D Crown Viewer */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-80px' }}
+          transition={{ duration: 0.7, ease: [0.19, 1, 0.22, 1] }}
+          className="mb-16"
+        >
+          <div className="flex items-center gap-3 mb-6">
+            <div className="w-8 h-px bg-cyan" />
+            <span className="font-mono text-xs text-cyan tracking-[0.2em] uppercase">
+              Интерактивный просмотр
+            </span>
+          </div>
+          <div className="grid lg:grid-cols-2 gap-8 items-center">
+            <div>
+              <h3 className="text-2xl font-inter font-bold text-foreground mb-4">
+                3D-модель коронки
+                <br /><span className="text-cyan">в реальном времени</span>
+              </h3>
+              <p className="text-muted-foreground text-sm leading-relaxed mb-6">
+                Каждая конструкция проектируется в CAD с точностью до 0.01 мм.
+                Вращайте модель, оцените форму и качество — именно так выглядит
+                результат до выхода со станка.
+              </p>
+              <div className="space-y-3">
+                {[
+                  { label: 'Точность фрезеровки', value: '0.01 мм' },
+                  { label: 'Материалы', value: 'Цирконий / Металл / Керамика' },
+                  { label: 'Стандарт', value: 'ISO 6872 / ISO 9693' },
+                ].map((row) => (
+                  <div key={row.label} className="flex justify-between items-center py-2 border-b border-border/30">
+                    <span className="font-mono text-xs text-muted-foreground uppercase tracking-wider">{row.label}</span>
+                    <span className="font-mono text-xs text-cyan font-semibold">{row.value}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+            <CrownViewer3D />
+          </div>
+        </motion.div>
 
         {/* Photo showcase */}
         <div className="grid md:grid-cols-3 gap-4 mb-16">
