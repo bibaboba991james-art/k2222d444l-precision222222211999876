@@ -4,7 +4,7 @@ import { ArrowDown } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 const HERO_IMG = 'https://media.base44.com/images/public/6a0d5f41b02c752e7da9527b/75124c0f3_generated_b45402b3.png';
-const EXOCAD_IMG = 'https://media.base44.com/images/public/6a0d5f41b02c752e7da9527b/d9c2d6e1c_generated_a8e89f7d.png';
+const EXOCAD_IMG = 'https://media.base44.com/images/public/6a0d5f41b02c752e7da9527b/b574bf0b3_generated_image.png';
 
 export default function HeroSection() {
   return (

@@ -2,6 +2,10 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { Monitor, Cog, ScanLine, Shield, Zap, Award } from 'lucide-react';
 
+const SCANNER_IMG = 'https://media.base44.com/images/public/6a0d5f41b02c752e7da9527b/5ad6906c0_generated_image.png';
+const CAD_IMG = 'https://media.base44.com/images/public/6a0d5f41b02c752e7da9527b/b574bf0b3_generated_image.png';
+const MILLING_IMG = 'https://media.base44.com/images/public/6a0d5f41b02c752e7da9527b/dc68c345a_generated_image.png';
+
 const steps = [
   {
     icon: ScanLine,
@@ -90,6 +94,35 @@ export default function TechSection() {
                 <p className="text-xs text-muted-foreground leading-relaxed">
                   {step.desc}
                 </p>
+              </div>
+            </motion.div>
+          ))}
+        </div>
+
+        {/* Photo showcase */}
+        <div className="grid md:grid-cols-3 gap-4 mb-16">
+          {[
+            { src: SCANNER_IMG, label: '3D-сканирование', sub: 'Оптический скан 7 мкм' },
+            { src: CAD_IMG, label: 'CAD-моделирование', sub: 'Exocad DentalCAD' },
+            { src: MILLING_IMG, label: 'CNC-фрезеровка', sub: '5-осевой станок' },
+          ].map((item, i) => (
+            <motion.div
+              key={item.label}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: '-40px' }}
+              transition={{ duration: 0.6, delay: i * 0.1, ease: [0.19, 1, 0.22, 1] }}
+              className="relative overflow-hidden rounded-sm border border-border/50 group"
+            >
+              <img
+                src={item.src}
+                alt={item.label}
+                className="w-full aspect-video object-cover group-hover:scale-105 transition-transform duration-700"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-background/20 to-transparent" />
+              <div className="absolute bottom-3 left-3">
+                <div className="font-mono text-[10px] text-cyan/70 uppercase tracking-wider">{item.sub}</div>
+                <div className="font-inter font-semibold text-sm text-foreground">{item.label}</div>
               </div>
             </motion.div>
           ))}

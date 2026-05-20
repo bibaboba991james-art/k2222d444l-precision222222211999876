@@ -2,7 +2,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { Cpu, ScanLine, Target, Layers } from 'lucide-react';
 
-const MILLING_IMG = 'https://media.base44.com/images/public/6a0d5f41b02c752e7da9527b/3d8d58e49_generated_bde7ceb2.png';
+const MILLING_IMG = 'https://media.base44.com/images/public/6a0d5f41b02c752e7da9527b/dc68c345a_generated_image.png';
 
 const features = [
   {
@@ -51,12 +51,12 @@ export default function AboutSection() {
               />
               {/* Overlay label */}
               <div className="absolute bottom-4 left-4 bg-obsidian/90 backdrop-blur-sm border border-cyan/20 rounded-sm px-4 py-2">
-                <div className="font-mono text-[10px] text-cyan/60 uppercase tracking-wider mb-0.5">
-                  Milling Precision
-                </div>
-                <div className="font-mono text-sm text-foreground">
-                  5-Axis CNC • 0.01mm
-                </div>
+              <div className="font-mono text-[10px] text-cyan/60 uppercase tracking-wider mb-0.5">
+                CNC Zirconia Milling
+              </div>
+              <div className="font-mono text-sm text-foreground">
+                5-Axis • Zr Block • 0.01mm
+              </div>
               </div>
             </div>
           </motion.div>
