@@ -2,7 +2,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { Cpu, ScanLine, Target, Layers } from 'lucide-react';
 
-const MILLING_IMG = 'https://media.base44.com/images/public/6a0d5f41b02c752e7da9527b/f6a1e8b1f_generated_image.png';
+const MILLING_IMG = 'https://media.base44.com/images/public/6a0d5f41b02c752e7da9527b/eb064bb4c_generated_image.png';
 
 const features = [
   {
