@@ -2,6 +2,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { Monitor, Cog, ScanLine, Shield, Zap, Award } from 'lucide-react';
 import CrownViewer3D from './CrownViewer3D';
+import ProsthesisViewer3D from './ProsthesisViewer3D';
 
 const SCANNER_IMG = 'https://media.base44.com/images/public/6a0d5f41b02c752e7da9527b/5ad6906c0_generated_image.png';
 const CAD_IMG = 'https://media.base44.com/images/public/6a0d5f41b02c752e7da9527b/b574bf0b3_generated_image.png';
@@ -139,6 +140,43 @@ export default function TechSection() {
               </div>
             </div>
             <CrownViewer3D />
+          </div>
+        </motion.div>
+
+        {/* Prosthesis 3D Viewer */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-80px' }}
+          transition={{ duration: 0.7, ease: [0.19, 1, 0.22, 1] }}
+          className="mb-16"
+        >
+          <div className="grid lg:grid-cols-2 gap-8 items-center">
+            <div className="order-2 lg:order-1">
+              <ProsthesisViewer3D />
+            </div>
+            <div className="order-1 lg:order-2">
+              <h3 className="text-2xl font-inter font-bold text-foreground mb-4">
+                Съёмные протезы
+                <br /><span className="text-cyan">в 3D-формате</span>
+              </h3>
+              <p className="text-muted-foreground text-sm leading-relaxed mb-6">
+                Полные и частичные съёмные протезы изготавливаются с точным прикусом и анатомической постановкой зубов.
+                Акриловые, нейлоновые и бюгельные конструкции — подбираем материал под каждый клинический случай.
+              </p>
+              <div className="space-y-3">
+                {[
+                  { label: 'Материалы', value: 'Акрил / Нейлон / Металл' },
+                  { label: 'Постановка зубов', value: 'Анатомическая, по прикусу' },
+                  { label: 'Срок изготовления', value: 'от 5 рабочих дней' },
+                ].map((row) => (
+                  <div key={row.label} className="flex justify-between items-center py-2 border-b border-border/30">
+                    <span className="font-mono text-xs text-muted-foreground uppercase tracking-wider">{row.label}</span>
+                    <span className="font-mono text-xs text-cyan font-semibold">{row.value}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
         </motion.div>
 
