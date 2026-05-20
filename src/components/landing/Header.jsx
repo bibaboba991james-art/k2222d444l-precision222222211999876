@@ -48,48 +48,38 @@ export default function Header() {
         <div className="flex items-center justify-between h-16 md:h-20">
           {/* Logo */}
           <a href="/" className="flex items-center gap-2 group">
-            {/* Hexagon + clean tooth emblem */}
+            {/* Tooth silhouette with К letter inside */}
             <div className="relative flex-shrink-0">
-              <svg width="64" height="64" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" className="transition-all duration-300 group-hover:drop-shadow-[0_0_10px_rgba(0,229,255,0.6)]">
-                {/* Hexagon background */}
-                <polygon
-                  points="50,5 91,27.5 91,72.5 50,95 9,72.5 9,27.5"
-                  fill="#06101E"
-                  stroke="#00E5FF"
-                  strokeWidth="2"
-                />
-                {/*
-                  Clean tooth silhouette:
-                  Two cusps on top, body narrows, two roots at bottom.
-                  Path: start top-left, go clockwise.
-                */}
+              <svg width="48" height="56" viewBox="0 0 80 90" fill="none" xmlns="http://www.w3.org/2000/svg" className="transition-all duration-300 group-hover:drop-shadow-[0_0_12px_rgba(0,229,255,0.7)]">
+                {/* Filled tooth shape */}
                 <path
                   d="
-                    M 33,38
-                    C 31,28 33,18 40,16
-                    C 44,14 47,20 50,18
-                    C 53,20 56,14 60,16
-                    C 67,18 69,28 67,38
-                    C 65,48 62,54 60,62
-                    L 57,78
-                    L 53,62
-                    L 50,58
-                    L 47,62
-                    L 43,78
-                    L 40,62
-                    C 38,54 35,48 33,38
-                    Z
+                    M 40,4
+                    L 52,8 L 64,8 L 74,18
+                    L 72,38 L 66,54
+                    L 60,72 L 56,82
+                    L 52,72 L 48,66
+                    L 40,66
+                    L 32,66 L 28,72
+                    L 24,82 L 20,72
+                    L 14,54 L 8,38
+                    L 6,18 L 16,8
+                    L 28,8 Z
                   "
-                  fill="none"
-                  stroke="#00E5FF"
-                  strokeWidth="2"
-                  strokeLinejoin="round"
-                  strokeLinecap="round"
+                  fill="#00E5FF"
                 />
-                {/* Crown dividing line */}
-                <line x1="34" y1="42" x2="66" y2="42" stroke="#00E5FF" strokeWidth="1.2" strokeLinecap="round"/>
-                {/* Center groove */}
-                <line x1="50" y1="18" x2="50" y2="42" stroke="#00E5FF" strokeWidth="1" strokeLinecap="round"/>
+                {/* Letter К cutout (white) */}
+                <text
+                  x="40"
+                  y="52"
+                  textAnchor="middle"
+                  dominantBaseline="middle"
+                  fontFamily="Inter, Arial, sans-serif"
+                  fontWeight="700"
+                  fontSize="36"
+                  fill="#04080F"
+                  letterSpacing="-1"
+                >К</text>
               </svg>
             </div>
 
