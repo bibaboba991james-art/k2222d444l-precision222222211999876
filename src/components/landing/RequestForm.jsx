@@ -95,15 +95,15 @@ export default function RequestForm() {
 
               {/* Phone CTA */}
               <a
-                href="tel:88002554200"
+                href="tel:+79992640184"
                 className="group flex items-center gap-4 p-4 border border-cyan/15 rounded-sm bg-card/30 hover:border-cyan/30 hover:bg-card/50 transition-all duration-300 mt-6"
               >
                 <div className="w-10 h-10 rounded-sm bg-cyan/10 border border-cyan/30 flex items-center justify-center shrink-0">
                   <Phone className="w-4 h-4 text-cyan" />
                 </div>
                 <div>
-                  <div className="font-mono text-sm text-foreground font-semibold">8 800 255-42-00</div>
-                  <div className="text-xs text-muted-foreground/70 mt-0.5">Звонок бесплатный</div>
+                  <div className="font-mono text-sm text-foreground font-semibold">+7 999 264-01-84</div>
+                  <div className="text-xs text-muted-foreground/70 mt-0.5">Звонки и WhatsApp</div>
                 </div>
               </a>
 
