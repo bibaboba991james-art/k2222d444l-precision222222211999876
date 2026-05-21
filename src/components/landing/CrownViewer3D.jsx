@@ -84,9 +84,10 @@ export default function CrownViewer3D() {
         const center = box.getCenter(new THREE.Vector3());
         const size = box.getSize(new THREE.Vector3());
         const maxDim = Math.max(size.x, size.y, size.z);
-        const scale = 2.4 / maxDim;
+        const isMobile = window.innerWidth < 768;
+        const scale = (isMobile ? 1.6 : 2.4) / maxDim;
         model.scale.setScalar(scale);
-        model.position.x = -center.x * scale;
+        model.position.x = -center.x * scale - (isMobile ? 0.6 : 0);
         model.position.y = -center.y * scale;
         model.position.z = -center.z * scale;
         
@@ -122,7 +123,7 @@ export default function CrownViewer3D() {
       camera.position.x = Math.sin(cameraAngle.current.y) * Math.cos(cameraAngle.current.x) * radius;
       camera.position.y = Math.sin(cameraAngle.current.x) * radius;
       camera.position.z = Math.cos(cameraAngle.current.y) * Math.cos(cameraAngle.current.x) * radius;
-      camera.lookAt(-0.5, 0, 0);
+      camera.lookAt(0, 0, 0);
       
       renderer.render(scene, camera);
     };
