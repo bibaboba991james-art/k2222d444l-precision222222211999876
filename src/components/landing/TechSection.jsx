@@ -216,7 +216,7 @@ export default function TechSection() {
                 ))}
               </div>
             </div>
-            <div className="relative border border-cyan/20 rounded-sm overflow-hidden group" style={{ height: 420 }}>
+            <div className="relative border border-cyan/20 rounded-sm overflow-hidden group" style={{ height: 'clamp(220px, 40vw, 420px)' }}>
               <img
                 src="https://media.base44.com/images/public/6a0d5f41b02c752e7da9527b/53fae8843_image.png"
                 alt="Покраска зубных протезов"
