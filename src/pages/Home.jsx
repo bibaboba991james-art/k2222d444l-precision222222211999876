@@ -5,6 +5,7 @@ import AboutSection from '../components/landing/AboutSection';
 import ServicesSection from '../components/landing/ServicesSection';
 import TechSection from '../components/landing/TechSection';
 import RequestForm from '../components/landing/RequestForm';
+import DeliverySection from '../components/landing/DeliverySection';
 import Footer from '../components/landing/Footer';
 
 export default function Home() {
@@ -15,6 +16,7 @@ export default function Home() {
       <AboutSection />
       <ServicesSection />
       <TechSection />
+      <DeliverySection />
       <RequestForm />
       <Footer />
     </div>
