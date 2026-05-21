@@ -180,6 +180,63 @@ export default function TechSection() {
           </div>
         </motion.div>
 
+        {/* Painted teeth photo */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-80px' }}
+          transition={{ duration: 0.7, ease: [0.19, 1, 0.22, 1] }}
+          className="mb-16"
+        >
+          <div className="grid lg:grid-cols-2 gap-8 items-center">
+            <div>
+              <div className="flex items-center gap-3 mb-6">
+                <div className="w-8 h-px bg-cyan" />
+                <span className="font-mono text-xs text-cyan tracking-[0.2em] uppercase">
+                  Финишная обработка
+                </span>
+              </div>
+              <h3 className="text-2xl font-inter font-bold text-foreground mb-4">
+                Покраска и глазурование
+                <br /><span className="text-cyan">до натурального вида</span>
+              </h3>
+              <p className="text-muted-foreground text-sm leading-relaxed mb-6">
+                Каждый протез проходит индивидуальную покраску и глазурование — зубы приобретают естественный цвет, прозрачность и блеск, неотличимые от настоящих.
+              </p>
+              <div className="space-y-3">
+                {[
+                  { label: 'Техника', value: 'Индивидуальная покраска' },
+                  { label: 'Покрытие', value: 'Глазурь / Полировка' },
+                  { label: 'Цветовая шкала', value: 'VITA Classical' },
+                ].map((row) => (
+                  <div key={row.label} className="flex justify-between items-center py-2 border-b border-border/30">
+                    <span className="font-mono text-xs text-muted-foreground uppercase tracking-wider">{row.label}</span>
+                    <span className="font-mono text-xs text-cyan font-semibold">{row.value}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+            <div className="relative border border-cyan/20 rounded-sm overflow-hidden group" style={{ height: 420 }}>
+              <img
+                src="https://media.base44.com/images/public/6a0d5f41b02c752e7da9527b/53fae8843_image.png"
+                alt="Покраска зубных протезов"
+                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-background/60 via-transparent to-transparent" />
+              <div className="absolute inset-0 pointer-events-none opacity-[0.03]"
+                style={{
+                  backgroundImage: `linear-gradient(rgba(0,229,255,0.8) 1px, transparent 1px), linear-gradient(90deg, rgba(0,229,255,0.8) 1px, transparent 1px)`,
+                  backgroundSize: '40px 40px',
+                }}
+              />
+              <div className="absolute top-4 left-4 pointer-events-none flex items-center gap-2">
+                <div className="w-2 h-2 rounded-full bg-cyan animate-pulse-glow" />
+                <span className="font-mono text-[10px] text-cyan/80 uppercase tracking-[0.2em]">Реальная работа лаборатории</span>
+              </div>
+            </div>
+          </div>
+        </motion.div>
+
         {/* Photo showcase */}
         <div className="grid md:grid-cols-3 gap-4 mb-16">
           {[
