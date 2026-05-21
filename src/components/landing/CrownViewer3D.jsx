@@ -86,7 +86,7 @@ export default function CrownViewer3D() {
         const maxDim = Math.max(size.x, size.y, size.z);
         const scale = 2.4 / maxDim;
         model.scale.setScalar(scale);
-        model.position.x = -center.x * scale - 0.5;
+        model.position.x = -center.x * scale;
         model.position.y = -center.y * scale;
         model.position.z = -center.z * scale;
         
