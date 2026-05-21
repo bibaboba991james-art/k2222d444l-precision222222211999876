@@ -19,7 +19,7 @@ export default function Footer() {
               </h3>
             </div>
             <a
-              href="#request"
+              href="/#request"
               className="group flex items-center gap-2 px-6 py-3 bg-cyan text-obsidian font-semibold text-sm rounded-sm hover:bg-cyan-dark transition-all duration-300 shrink-0"
             >
               Оставить заявку
@@ -148,10 +148,10 @@ export default function Footer() {
             </h4>
             <div className="space-y-1">
               {[
-                { label: 'О лаборатории', href: '#about' },
-                { label: 'Услуги', href: '#services' },
-                { label: 'Технологии', href: '#tech' },
-                { label: 'Оставить заявку', href: '#request' },
+                { label: 'О лаборатории', href: '/#about' },
+                { label: 'Услуги', href: '/#services' },
+                { label: 'Технологии', href: '/#tech' },
+                { label: 'Оставить заявку', href: '/#request' },
               ].map((link) => (
                 <a
                   key={link.href}
