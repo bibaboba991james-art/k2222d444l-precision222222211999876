@@ -31,8 +31,11 @@ export default function CrownViewer3D() {
   const frameRef = useRef(null);
   const isDragging = useRef(false);
   const prevMouse = useRef({ x: 0, y: 0 });
-  const rotVelocity = useRef({ x: 0, y: 0 });
-  const cameraAngle = useRef({ x: 0.15, y: 0 });
+  // Spherical coords: theta = horizontal angle, phi = vertical angle (from top)
+  const theta = useRef(0);
+  const phi = useRef(Math.PI / 2 - 0.15); // slightly above equator
+  const velTheta = useRef(0);
+  const velPhi = useRef(0);
   const zoomRef = useRef(6.5);
 
   const [activeTab, setActiveTab] = useState('zirconia');
@@ -48,7 +51,6 @@ export default function CrownViewer3D() {
     sceneRef.current = scene;
 
     const camera = new THREE.PerspectiveCamera(45, W / H, 0.1, 100);
-    camera.position.set(0, 0, zoomRef.current);
     cameraRef.current = camera;
 
     const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
@@ -78,8 +80,6 @@ export default function CrownViewer3D() {
       GLB_URL,
       (gltf) => {
         const model = gltf.scene;
-
-        // Center and scale model
         const box = new THREE.Box3().setFromObject(model);
         const center = box.getCenter(new THREE.Vector3());
         const size = box.getSize(new THREE.Vector3());
@@ -90,11 +90,6 @@ export default function CrownViewer3D() {
         model.position.x = -center.x * scale - (isMobile ? 0.6 : 0);
         model.position.y = -center.y * scale;
         model.position.z = -center.z * scale;
-        
-        // Set initial angle for better view
-        model.rotation.x = 0.15;
-        model.rotation.y = 0;
-
         applyMaterial(model, MATERIALS['zirconia']);
         scene.add(model);
         modelRef.current = model;
@@ -111,27 +106,34 @@ export default function CrownViewer3D() {
     // Animate
     const animate = () => {
       frameRef.current = requestAnimationFrame(animate);
+
       if (!isDragging.current) {
-        rotVelocity.current.x *= 0.88;
-        rotVelocity.current.y *= 0.88;
-        cameraAngle.current.x += rotVelocity.current.x;
-        cameraAngle.current.y += rotVelocity.current.y;
+        velTheta.current *= 0.88;
+        velPhi.current *= 0.88;
+        theta.current += velTheta.current;
+        phi.current += velPhi.current;
       }
 
-      
-      const radius = zoomRef.current;
-      camera.position.x = Math.sin(cameraAngle.current.y) * Math.cos(cameraAngle.current.x) * radius;
-      camera.position.y = Math.sin(cameraAngle.current.x) * radius;
-      camera.position.z = Math.cos(cameraAngle.current.y) * Math.cos(cameraAngle.current.x) * radius;
+      // Clamp phi so camera doesn't flip over poles
+      phi.current = Math.max(0.05, Math.min(Math.PI - 0.05, phi.current));
+
+      const r = zoomRef.current;
+      const p = phi.current;
+      const t = theta.current;
+      camera.position.x = r * Math.sin(p) * Math.sin(t);
+      camera.position.y = r * Math.cos(p);
+      camera.position.z = r * Math.sin(p) * Math.cos(t);
       camera.lookAt(0, 0, 0);
-      
+
       renderer.render(scene, camera);
     };
     animate();
 
     const onResize = () => {
       const w = el.clientWidth, h = el.clientHeight;
-      camera.aspect = w / h; camera.updateProjectionMatrix(); renderer.setSize(w, h);
+      camera.aspect = w / h;
+      camera.updateProjectionMatrix();
+      renderer.setSize(w, h);
     };
     window.addEventListener('resize', onResize);
 
@@ -148,30 +150,42 @@ export default function CrownViewer3D() {
     if (modelRef.current) applyMaterial(modelRef.current, MATERIALS[activeTab]);
   }, [activeTab]);
 
-  const onPointerDown = (e) => { isDragging.current = true; prevMouse.current = { x: e.clientX, y: e.clientY }; };
-  const onPointerMove = (e) => {
-    if (!isDragging.current) return;
-    const dx = e.clientX - prevMouse.current.x, dy = e.clientY - prevMouse.current.y;
-    rotVelocity.current.y = dx * 0.008;
-    rotVelocity.current.x = dy * 0.008;
-    cameraAngle.current.y += dx * 0.008;
-    cameraAngle.current.x += dy * 0.008;
+  const onPointerDown = (e) => {
+    isDragging.current = true;
     prevMouse.current = { x: e.clientX, y: e.clientY };
   };
+
+  const onPointerMove = (e) => {
+    if (!isDragging.current) return;
+    const dx = e.clientX - prevMouse.current.x;
+    const dy = e.clientY - prevMouse.current.y;
+    const speed = 0.007;
+    // dx → rotate horizontally (theta), dy → rotate vertically (phi)
+    // Moving mouse UP (negative dy) → phi decreases → camera goes up → model appears to tilt forward ✓
+    velTheta.current = dx * speed;
+    velPhi.current = -dy * speed;
+    theta.current += dx * speed;
+    phi.current -= dy * speed;
+    prevMouse.current = { x: e.clientX, y: e.clientY };
+  };
+
   const onPointerUp = () => { isDragging.current = false; };
+
   const onWheel = (e) => {
     e.preventDefault();
-    zoomRef.current = Math.max(4, Math.min(10, zoomRef.current + e.deltaY * 0.005));
-    if (cameraRef.current) cameraRef.current.position.z = zoomRef.current;
+    zoomRef.current = Math.max(4, Math.min(12, zoomRef.current + e.deltaY * 0.01));
   };
+
   const resetView = () => {
-    cameraAngle.current = { x: 0.15, y: 0 };
-    rotVelocity.current = { x: 0, y: 0 };
+    theta.current = 0;
+    phi.current = Math.PI / 2 - 0.15;
+    velTheta.current = 0;
+    velPhi.current = 0;
     zoomRef.current = 6.5;
   };
+
   const zoom = (dir) => {
-    zoomRef.current = Math.max(4, Math.min(10, zoomRef.current + dir * 0.5));
-    if (cameraRef.current) cameraRef.current.position.z = zoomRef.current;
+    zoomRef.current = Math.max(4, Math.min(12, zoomRef.current + dir * 0.5));
   };
 
   return (
