@@ -23,7 +23,10 @@ export default function Header() {
       if (isHome) {
         document.querySelector(href)?.scrollIntoView({ behavior: 'smooth' });
       } else {
-        navigate('/' + href);
+        navigate('/');
+        setTimeout(() => {
+          document.querySelector(href)?.scrollIntoView({ behavior: 'smooth' });
+        }, 300);
       }
     }
   };
@@ -100,7 +103,7 @@ export default function Header() {
               <Phone className="w-4 h-4 text-cyan" />
               <span className="font-mono text-sm">8 800 255-42-00</span>
             </a>
-            <a href="#request">
+            <a href="#request" onClick={(e) => handleNavClick(e, '#request')}>
               <Button className="bg-cyan text-obsidian font-semibold hover:bg-cyan-dark px-6 rounded-sm text-sm tracking-wide">
                 Оставить заявку
               </Button>
@@ -142,7 +145,7 @@ export default function Header() {
                   <Phone className="w-4 h-4 text-cyan" />
                   <span className="font-mono">8 800 255-42-00</span>
                 </a>
-                <a href="#request" onClick={() => setMenuOpen(false)}>
+                <a href="#request" onClick={(e) => { handleNavClick(e, '#request'); setMenuOpen(false); }}>
                   <Button className="w-full mt-3 bg-cyan text-obsidian font-semibold hover:bg-cyan-dark rounded-sm">
                     Оставить заявку
                   </Button>
