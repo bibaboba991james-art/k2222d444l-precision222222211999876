@@ -29,7 +29,7 @@ export default function HeroSection() {
             initial={{ opacity: 0, x: -40 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8, ease: [0.19, 1, 0.22, 1] }}
-            className="order-2 lg:order-1"
+            className="order-1 lg:order-1"
           >
             {/* Technical label */}
             <div className="flex items-center gap-3 mb-6">
@@ -95,7 +95,7 @@ export default function HeroSection() {
             initial={{ opacity: 0, x: 40 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8, delay: 0.2, ease: [0.19, 1, 0.22, 1] }}
-            className="order-1 lg:order-2 relative"
+            className="order-2 lg:order-2 relative"
           >
             <div className="relative rounded-xl overflow-hidden border border-cyan/15 glow-cyan">
               {/* Main heatmap image — fullscreen */}
