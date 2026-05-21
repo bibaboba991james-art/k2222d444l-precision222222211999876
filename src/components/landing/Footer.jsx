@@ -99,7 +99,7 @@ export default function Footer() {
                 </div>
                 <div>
                   <div className="font-mono">+7 999 264-01-84</div>
-                  <div className="text-xs text-muted-foreground/60 mt-0.5">Звонки и WhatsApp</div>
+                  <div className="text-xs text-muted-foreground/60 mt-0.5">Звонки</div>
                 </div>
               </a>
               <a
