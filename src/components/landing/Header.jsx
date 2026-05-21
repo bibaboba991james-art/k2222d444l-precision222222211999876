@@ -97,11 +97,11 @@ export default function Header() {
           {/* Right side */}
           <div className="hidden md:flex items-center gap-4">
             <a
-              href="tel:88002554200"
+              href="tel:+79992640184"
               className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors"
             >
               <Phone className="w-4 h-4 text-cyan" />
-              <span className="font-mono text-sm">8 800 255-42-00</span>
+              <span className="font-mono text-sm">+7 999 264-01-84</span>
             </a>
             <a href="#request" onClick={(e) => handleNavClick(e, '#request')}>
               <Button className="bg-cyan text-obsidian font-semibold hover:bg-cyan-dark px-6 rounded-sm text-sm tracking-wide">
@@ -141,9 +141,9 @@ export default function Header() {
                 </a>
               ))}
               <div className="pt-4 border-t border-border">
-                <a href="tel:88002554200" className="flex items-center gap-2 text-sm text-muted-foreground py-2">
+                <a href="tel:+79992640184" className="flex items-center gap-2 text-sm text-muted-foreground py-2">
                   <Phone className="w-4 h-4 text-cyan" />
-                  <span className="font-mono">8 800 255-42-00</span>
+                  <span className="font-mono">+7 999 264-01-84</span>
                 </a>
                 <a href="#request" onClick={(e) => { handleNavClick(e, '#request'); setMenuOpen(false); }}>
                   <Button className="w-full mt-3 bg-cyan text-obsidian font-semibold hover:bg-cyan-dark rounded-sm">

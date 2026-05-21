@@ -91,25 +91,25 @@ export default function Footer() {
             </h4>
             <div className="space-y-4">
               <a
-                href="tel:88002554200"
+                href="tel:+79992640184"
                 className="group flex items-start gap-3 text-sm text-muted-foreground hover:text-foreground transition-colors"
               >
                 <div className="w-8 h-8 rounded-sm border border-border/50 group-hover:border-cyan/30 flex items-center justify-center shrink-0 transition-colors">
                   <Phone className="w-3.5 h-3.5 text-cyan" />
                 </div>
                 <div>
-                  <div className="font-mono">8 800 255-42-00</div>
-                  <div className="text-xs text-muted-foreground/60 mt-0.5">Бесплатно по РФ</div>
+                  <div className="font-mono">+7 999 264-01-84</div>
+                  <div className="text-xs text-muted-foreground/60 mt-0.5">Звонки и WhatsApp</div>
                 </div>
               </a>
               <a
-                href="mailto:info@kzl-lab.ru"
+                href="mailto:Zublab116@yandex.ru"
                 className="group flex items-center gap-3 text-sm text-muted-foreground hover:text-foreground transition-colors"
               >
                 <div className="w-8 h-8 rounded-sm border border-border/50 group-hover:border-cyan/30 flex items-center justify-center shrink-0 transition-colors">
                   <Mail className="w-3.5 h-3.5 text-cyan" />
                 </div>
-                <span>info@kzl-lab.ru</span>
+                <span>Zublab116@yandex.ru</span>
               </a>
             </div>
           </div>
