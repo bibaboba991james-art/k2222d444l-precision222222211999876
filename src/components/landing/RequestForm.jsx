@@ -103,7 +103,7 @@ export default function RequestForm() {
                 </div>
                 <div>
                   <div className="font-mono text-sm text-foreground font-semibold">+7 999 264-01-84</div>
-                  <div className="text-xs text-muted-foreground/70 mt-0.5">Звонки и WhatsApp</div>
+                  
                 </div>
               </a>
 
