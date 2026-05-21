@@ -122,7 +122,7 @@ export default function CrownViewer3D() {
       camera.position.x = Math.sin(cameraAngle.current.y) * Math.cos(cameraAngle.current.x) * radius;
       camera.position.y = Math.sin(cameraAngle.current.x) * radius;
       camera.position.z = Math.cos(cameraAngle.current.y) * Math.cos(cameraAngle.current.x) * radius;
-      camera.lookAt(0, 0, 0);
+      camera.lookAt(-0.5, 0, 0);
       
       renderer.render(scene, camera);
     };
