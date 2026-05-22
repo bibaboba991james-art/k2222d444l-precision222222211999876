@@ -7,6 +7,7 @@ import TechSection from '../components/landing/TechSection';
 import RequestForm from '../components/landing/RequestForm';
 import DeliverySection from '../components/landing/DeliverySection';
 import Footer from '../components/landing/Footer';
+import FaqSection from '../components/landing/FaqSection';
 
 export default function Home() {
   return (
@@ -18,6 +19,7 @@ export default function Home() {
       <TechSection />
       <DeliverySection />
       <RequestForm />
+      <FaqSection />
       <Footer />
     </div>
   );
