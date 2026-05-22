@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { ArrowUpRight } from 'lucide-react';
+import ServiceModal from './ServiceModal';
 
 const CROWN_IMG = 'https://media.base44.com/images/public/6a0d5f41b02c752e7da9527b/8fbe3a2af_generated_04271a77.png';
 const BRIDGE_IMG = 'https://media.base44.com/images/public/6a0d5f41b02c752e7da9527b/62b33d2e6_generated_e42ad74b.png';
@@ -47,6 +48,7 @@ const services = [
 
 export default function ServicesSection() {
   const [hovered, setHovered] = useState(null);
+  const [selected, setSelected] = useState(null);
 
   return (
     <section id="services" className="relative py-24 md:py-32">
@@ -84,6 +86,7 @@ export default function ServicesSection() {
               transition={{ duration: 0.6, delay: i * 0.12, ease: [0.19, 1, 0.22, 1] }}
               onMouseEnter={() => setHovered(i)}
               onMouseLeave={() => setHovered(null)}
+              onClick={() => setSelected(service)}
               className="group relative border rounded-sm overflow-hidden cursor-pointer transition-all duration-500"
               style={{
                 borderColor: hovered === i ? 'rgba(0,229,255,0.4)' : 'rgba(255,255,255,0.08)',
@@ -171,6 +174,8 @@ export default function ServicesSection() {
           ))}
         </div>
       </div>
+
+      <ServiceModal service={selected} onClose={() => setSelected(null)} />
     </section>
   );
 }
