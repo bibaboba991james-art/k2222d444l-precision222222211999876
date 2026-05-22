@@ -5,7 +5,7 @@ import Footer from '@/components/landing/Footer';
 import { Search, ChevronDown, ChevronUp, Phone, Mail, Zap, Gift, Truck, GraduationCap, Star } from 'lucide-react';
 
 const promos = [
-  { icon: Gift, title: 'Скидка 50% на первый заказ', desc: 'Для новых клиник при первом обращении', tag: 'Акция' },
+  { icon: Gift, title: 'Скидка 50% на первый заказ', desc: '50% скидка на первый заказ для новых клиник', tag: 'Акция' },
   { icon: Zap, title: 'Бесплатное принтование моделей', desc: 'При заказе любой конструкции', tag: 'Бонус' },
   { icon: Truck, title: 'Бесплатная доставка', desc: 'По Казани и за её пределы', tag: 'Бесплатно' },
   { icon: GraduationCap, title: 'Бесплатное обучение', desc: 'Курсы по сканированию и имплантации для врачей', tag: 'Для врачей' },
