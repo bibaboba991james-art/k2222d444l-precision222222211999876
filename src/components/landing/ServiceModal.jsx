@@ -87,20 +87,18 @@ export default function ServiceModal({ service, onClose }) {
           transition={{ duration: 0.3, ease: [0.19, 1, 0.22, 1] }}
           onClick={(e) => e.stopPropagation()}
         >
-          {/* Header image */}
-          <div className="relative h-48 overflow-hidden">
-            <img src={service.image} alt={service.subtitle} className="w-full h-full object-cover" />
-            <div className="absolute inset-0 bg-gradient-to-b from-transparent via-obsidian/40 to-card/95" />
-            <button
-              onClick={onClose}
-              className="absolute top-4 right-4 w-8 h-8 rounded-sm border border-white/20 bg-obsidian/60 flex items-center justify-center text-white/70 hover:text-white hover:border-white/40 transition-all"
-            >
-              <X className="w-4 h-4" />
-            </button>
-            <div className="absolute bottom-4 left-5">
+          {/* Header */}
+          <div className="relative flex items-start justify-between p-6 pb-4 border-b border-border/30">
+            <div>
               <div className="font-mono text-[10px] text-cyan uppercase tracking-[0.2em] mb-1">{service.title}</div>
               <h3 className="font-inter font-bold text-xl text-foreground">{service.subtitle}</h3>
             </div>
+            <button
+              onClick={onClose}
+              className="w-8 h-8 rounded-sm border border-border/50 bg-background/50 flex items-center justify-center text-muted-foreground hover:text-foreground hover:border-cyan/30 transition-all shrink-0 ml-4"
+            >
+              <X className="w-4 h-4" />
+            </button>
           </div>
 
           {/* Content */}
