@@ -19,7 +19,8 @@ export default function Footer() {
               </h3>
             </div>
             <a
-              href="/#request"
+              href="#request"
+              onClick={(e) => { e.preventDefault(); document.querySelector('#request')?.scrollIntoView({ behavior: 'smooth' }); }}
               className="group flex items-center gap-2 px-6 py-3 bg-cyan text-obsidian font-semibold text-sm rounded-sm hover:bg-cyan-dark transition-all duration-300 shrink-0"
             >
               Оставить заявку
