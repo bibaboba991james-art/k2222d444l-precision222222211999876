@@ -88,8 +88,8 @@ export default function ServicesSection() {
               style={{
                 borderColor: hovered === i ? 'rgba(0,229,255,0.4)' : 'rgba(255,255,255,0.08)',
                 background: hovered === i
-                  ? 'linear-gradient(135deg, rgba(0,229,255,0.06) 0%, rgba(13,31,60,0.9) 100%)'
-                  : 'rgba(22,35,58,0.3)',
+                  ? 'linear-gradient(135deg, rgba(0,20,40,0.95) 0%, rgba(10,24,50,0.98) 100%)'
+                  : 'rgba(10,18,35,0.85)',
                 boxShadow: hovered === i
                   ? '0 0 40px rgba(0,229,255,0.08), inset 0 0 40px rgba(0,229,255,0.03)'
                   : 'none',
