@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 import { ArrowDown } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
-const HERO_IMG = 'https://media.base44.com/images/public/6a0d5f41b02c752e7da9527b/d9083b8fb_generated_image.png';
+const HERO_IMG = 'https://media.base44.com/images/public/6a0d5f41b02c752e7da9527b/c91333241_generated_image.png';
 
 export default function HeroSection() {
   return (
