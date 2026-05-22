@@ -114,7 +114,8 @@ export default function ProsthesisViewer3D() {
   const isDragging = useRef(false);
   const prevMouse = useRef({ x: 0, y: 0 });
   const rotVelocity = useRef({ x: 0, y: 0 });
-  const zoomRef = useRef(9);
+  const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
+  const zoomRef = useRef(isMobile ? 13 : 9);
 
   const [activeMat, setActiveMat] = useState('acrylic');
 
@@ -126,7 +127,8 @@ export default function ProsthesisViewer3D() {
     const scene = new THREE.Scene();
     sceneRef.current = scene;
 
-    const camera = new THREE.PerspectiveCamera(38, W / H, 0.1, 200);
+    const isMob = W < 768;
+    const camera = new THREE.PerspectiveCamera(isMob ? 50 : 38, W / H, 0.1, 200);
     camera.position.set(0, 1.5, zoomRef.current);
     cameraRef.current = camera;
 
@@ -205,8 +207,9 @@ export default function ProsthesisViewer3D() {
     if (cameraRef.current) cameraRef.current.position.z = zoomRef.current;
   };
   const resetView = () => {
+    const defaultZoom = window.innerWidth < 768 ? 13 : 9;
     if (groupRef.current) { groupRef.current.rotation.set(0.4, 0, 0); rotVelocity.current = { x: 0, y: 0 }; }
-    if (cameraRef.current) { zoomRef.current = 9; cameraRef.current.position.z = 9; }
+    if (cameraRef.current) { zoomRef.current = defaultZoom; cameraRef.current.position.z = defaultZoom; }
   };
   const zoom = (dir) => {
     zoomRef.current = Math.max(4, Math.min(18, zoomRef.current + dir * 1.2));
