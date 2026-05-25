@@ -2,7 +2,6 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { Monitor, Cog, ScanLine, Shield, Zap, Award } from 'lucide-react';
 import CrownViewer3D from './CrownViewer3D';
-import ProsthesisViewer3D from './ProsthesisViewer3D';
 
 const SCANNER_IMG = 'https://media.base44.com/images/public/6a0d5f41b02c752e7da9527b/5ad6906c0_generated_image.png';
 const CAD_IMG = 'https://media.base44.com/images/public/6a0d5f41b02c752e7da9527b/b574bf0b3_generated_image.png';
@@ -152,22 +151,31 @@ export default function TechSection() {
           className="mb-16"
         >
           <div className="grid lg:grid-cols-2 gap-8 items-center">
-            <div className="order-2 lg:order-1">
-              <ProsthesisViewer3D />
+            <div className="order-2 lg:order-1 relative border border-cyan/20 rounded-sm overflow-hidden group" style={{ height: 'clamp(220px, 40vw, 420px)' }}>
+              <img
+                src="https://media.base44.com/images/public/6a0d5f41b02c752e7da9527b/13bfc2cc8_image.png"
+                alt="Акриловый протез на балке All on 4"
+                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-background/50 via-transparent to-transparent" />
+              <div className="absolute top-4 left-4 pointer-events-none flex items-center gap-2">
+                <div className="w-2 h-2 rounded-full bg-cyan animate-pulse-glow" />
+                <span className="font-mono text-[10px] text-cyan/80 uppercase tracking-[0.2em]">Реальная работа лаборатории</span>
+              </div>
             </div>
             <div className="order-1 lg:order-2">
               <h3 className="text-2xl font-inter font-bold text-foreground mb-4">
-                Съёмные протезы
-                <br /><span className="text-cyan">в 3D-формате</span>
+                Протез на балке
+                <br /><span className="text-cyan">All on 4</span>
               </h3>
               <p className="text-muted-foreground text-sm leading-relaxed mb-6">
-                Полные и частичные съёмные протезы изготавливаются с точным прикусом и анатомической постановкой зубов.
-                Акриловые, нейлоновые и бюгельные конструкции — подбираем материал под каждый клинический случай.
+                Акриловый протез на балке в системе «All on 4» — современное решение для полного беззубия.
+                Металлическая балка фиксируется на 4 имплантах и служит надёжной основой для акрилового протеза с анатомической постановкой зубов.
               </p>
               <div className="space-y-3">
                 {[
-                  { label: 'Материалы', value: 'Акрил / Нейлон / Металл' },
-                  { label: 'Постановка зубов', value: 'Анатомическая, по прикусу' },
+                  { label: 'Система', value: 'All on 4' },
+                  { label: 'Материал', value: 'Акрил + металлическая балка' },
                   { label: 'Срок изготовления', value: 'от 5 рабочих дней' },
                 ].map((row) => (
                   <div key={row.label} className="flex justify-between items-center py-2 border-b border-border/30">
