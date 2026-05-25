@@ -43,6 +43,12 @@ export default function RequestForm() {
       name: form.name,
       phone: form.phone,
     });
+    // Отправка уведомления в Telegram (не блокируем, если упадёт)
+    base44.functions.invoke('sendTelegramNotification', {
+      name: form.name,
+      phone: form.phone,
+      work_type: form.work_type,
+    }).catch(() => {});
     setSubmitting(false);
     setSubmitted(true);
   };
