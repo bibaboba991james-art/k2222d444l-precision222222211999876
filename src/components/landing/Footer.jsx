@@ -121,15 +121,7 @@ export default function Footer() {
               Адрес
             </h4>
             <div className="space-y-4">
-              <div className="flex items-start gap-3 text-sm text-muted-foreground">
-                <div className="w-8 h-8 rounded-sm border border-border/50 flex items-center justify-center shrink-0">
-                  <MapPin className="w-3.5 h-3.5 text-cyan" />
-                </div>
-                <div>
-                  г. Казань, ул. Технологическая, д. 12
-                  <span className="block text-xs text-muted-foreground/60 mt-0.5">офис 301</span>
-                </div>
-              </div>
+
               <div className="flex items-start gap-3 text-sm text-muted-foreground">
                 <div className="w-8 h-8 rounded-sm border border-border/50 flex items-center justify-center shrink-0">
                   <Clock className="w-3.5 h-3.5 text-cyan" />
