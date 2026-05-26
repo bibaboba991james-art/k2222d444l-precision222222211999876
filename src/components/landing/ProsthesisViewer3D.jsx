@@ -190,15 +190,23 @@ export default function ProsthesisViewer3D() {
     groupRef.current = buildDenture(sceneRef.current, MATERIALS[activeMat]);
   }, [activeMat]);
 
-  const onPointerDown = (e) => { isDragging.current = true; prevMouse.current = { x: e.clientX, y: e.clientY }; };
+  const onPointerDown = (e) => {
+    isDragging.current = true;
+    const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+    const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+    prevMouse.current = { x: clientX, y: clientY };
+  };
   const onPointerMove = (e) => {
     if (!isDragging.current || !groupRef.current) return;
-    const dx = e.clientX - prevMouse.current.x, dy = e.clientY - prevMouse.current.y;
+    if (e.touches) e.preventDefault();
+    const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+    const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+    const dx = clientX - prevMouse.current.x, dy = clientY - prevMouse.current.y;
     rotVelocity.current.y = dx * 0.012;
     rotVelocity.current.x = dy * 0.012;
     groupRef.current.rotation.y += dx * 0.012;
     groupRef.current.rotation.x = Math.max(-0.3, Math.min(1.0, groupRef.current.rotation.x + dy * 0.012));
-    prevMouse.current = { x: e.clientX, y: e.clientY };
+    prevMouse.current = { x: clientX, y: clientY };
   };
   const onPointerUp = () => { isDragging.current = false; };
   const onWheel = (e) => {
@@ -226,6 +234,10 @@ export default function ProsthesisViewer3D() {
         onPointerUp={onPointerUp}
         onPointerLeave={onPointerUp}
         onWheel={onWheel}
+        onTouchStart={onPointerDown}
+        onTouchMove={onPointerMove}
+        onTouchEnd={onPointerUp}
+        style={{ touchAction: 'none' }}
       />
 
       {/* HUD grid */}

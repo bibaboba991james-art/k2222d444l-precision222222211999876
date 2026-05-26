@@ -152,21 +152,24 @@ export default function CrownViewer3D() {
 
   const onPointerDown = (e) => {
     isDragging.current = true;
-    prevMouse.current = { x: e.clientX, y: e.clientY };
+    const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+    const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+    prevMouse.current = { x: clientX, y: clientY };
   };
 
   const onPointerMove = (e) => {
     if (!isDragging.current) return;
-    const dx = e.clientX - prevMouse.current.x;
-    const dy = e.clientY - prevMouse.current.y;
+    if (e.touches) e.preventDefault();
+    const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+    const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+    const dx = clientX - prevMouse.current.x;
+    const dy = clientY - prevMouse.current.y;
     const speed = 0.007;
-    // dx → rotate horizontally (theta), dy → rotate vertically (phi)
-    // Moving mouse UP (negative dy) → phi decreases → camera goes up → model appears to tilt forward ✓
     velTheta.current = dx * speed;
     velPhi.current = -dy * speed;
     theta.current += dx * speed;
     phi.current -= dy * speed;
-    prevMouse.current = { x: e.clientX, y: e.clientY };
+    prevMouse.current = { x: clientX, y: clientY };
   };
 
   const onPointerUp = () => { isDragging.current = false; };
@@ -198,6 +201,10 @@ export default function CrownViewer3D() {
         onPointerUp={onPointerUp}
         onPointerLeave={onPointerUp}
         onWheel={onWheel}
+        onTouchStart={onPointerDown}
+        onTouchMove={onPointerMove}
+        onTouchEnd={onPointerUp}
+        style={{ touchAction: 'none' }}
       />
 
       {/* Loading */}
