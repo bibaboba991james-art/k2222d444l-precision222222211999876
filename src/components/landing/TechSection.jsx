@@ -153,11 +153,14 @@ export default function TechSection() {
           <div className="grid lg:grid-cols-2 gap-8 items-center">
             <div className="order-2 lg:order-1 relative border border-cyan/20 rounded-sm overflow-hidden group" style={{ height: 'clamp(220px, 40vw, 420px)' }}>
               <img
-                src="https://media.base44.com/images/public/6a0d5f41b02c752e7da9527b/3cee83ae8_generated_image.png"
+                src="https://media.base44.com/images/public/6a0d5f41b02c752e7da9527b/13bfc2cc8_image.png"
                 alt="Акриловый протез на балке All on 4"
                 className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-background/50 via-transparent to-transparent" />
+              {/* Hide watermark corners */}
+              <div className="absolute bottom-0 right-0 w-32 h-16 bg-gradient-to-tl from-background via-background/80 to-transparent" />
+              <div className="absolute top-0 right-0 w-24 h-12 bg-gradient-to-bl from-background via-background/60 to-transparent" />
               <div className="absolute top-4 left-4 pointer-events-none flex items-center gap-2">
                 <div className="w-2 h-2 rounded-full bg-cyan animate-pulse-glow" />
                 <span className="font-mono text-[10px] text-cyan/80 uppercase tracking-[0.2em]">Реальная работа лаборатории</span>
