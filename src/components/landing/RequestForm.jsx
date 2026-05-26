@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { base44 } from '@/api/base44Client';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import {
@@ -38,17 +37,17 @@ export default function RequestForm() {
     e.preventDefault();
     if (!form.work_type || !form.name || !form.phone) return;
     setSubmitting(true);
-    await base44.entities.LeadRequest.create({
-      work_type: form.work_type,
-      name: form.name,
-      phone: form.phone,
+
+    const botToken = import.meta.env.VITE_TELEGRAM_BOT_TOKEN;
+    const chatId = import.meta.env.VITE_TELEGRAM_CHAT_ID;
+    const text = `📋 *Новая заявка с сайта*\n\n👤 *Имя:* ${form.name}\n📞 *Телефон:* ${form.phone}\n🦷 *Вид работы:* ${form.work_type}`;
+
+    await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ chat_id: chatId, text, parse_mode: 'Markdown' }),
     });
-    // Отправка уведомления в Telegram (не блокируем, если упадёт)
-    base44.functions.invoke('sendTelegramNotification', {
-      name: form.name,
-      phone: form.phone,
-      work_type: form.work_type,
-    }).catch(() => {});
+
     setSubmitting(false);
     setSubmitted(true);
   };
