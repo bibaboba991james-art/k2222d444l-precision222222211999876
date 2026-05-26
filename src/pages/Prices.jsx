@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { motion } from 'framer-motion';
 import Header from '@/components/landing/Header';
 import Footer from '@/components/landing/Footer';
-import { Search, ChevronDown, ChevronUp, Phone, Mail, Zap, Gift, Truck, GraduationCap, Star } from 'lucide-react';
+import { Search, Phone, Mail, Zap, Gift, Truck, GraduationCap, Star, X } from 'lucide-react';
 
 const promos = [
   { icon: Gift, title: 'Скидка 50% на первую работу', desc: '50% скидка на первую работу для новых клиник', tag: 'Акция' },
@@ -43,7 +43,7 @@ const sections = [
   },
   {
     id: 3,
-    title: 'Циркониевые коронки. Полная анатомия',
+    title: 'Циркониевые коронки',
     items: [
       { n: 16, name: 'Циркониевая коронка на зубе, диски Китай, 1 ед.', price: 5000 },
       { n: 17, name: 'Циркониевая коронка на имплантате без основания, диски Китай, 1 ед.', price: 5500 },
@@ -101,7 +101,7 @@ const sections = [
   },
   {
     id: 7,
-    title: 'Диагностика, модели, абатменты',
+    title: 'Диагностика и абатменты',
     items: [
       { n: 50, name: 'Сканирование гипсовой модели, 1 ед.', price: 200 },
       { n: 51, name: 'Лабораторный трансферчек, 1 челюсть', price: 1000 },
@@ -121,7 +121,7 @@ const sections = [
   },
   {
     id: 8,
-    title: 'Временные конструкции на имплантатах',
+    title: 'Временные конструкции',
     items: [
       { n: 64, name: 'Диагностическая временная конструкция на имплантатах, 3D-печать, 1 ед.', price: 1000 },
       { n: 65, name: 'Диагностическая временная конструкция на имплантатах, фрезерование, 1 ед.', price: 2000 },
@@ -134,77 +134,23 @@ function fmt(n) {
   return n.toLocaleString('ru-RU') + ' ₽';
 }
 
-function PriceSection({ section, search }) {
-  const [open, setOpen] = useState(true);
-  const filtered = section.items.filter(
-    (i) => !search || i.name.toLowerCase().includes(search.toLowerCase())
-  );
-  if (search && filtered.length === 0) return null;
-
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: '-40px' }}
-      transition={{ duration: 0.5, ease: [0.19, 1, 0.22, 1] }}
-      className="border border-border/40 rounded-sm overflow-hidden"
-    >
-      {/* Section header */}
-      <button
-        onClick={() => setOpen(!open)}
-        className="w-full flex items-center justify-between px-5 py-4 bg-card/50 hover:bg-card/80 transition-colors group"
-      >
-        <div className="flex items-center gap-4">
-          <span className="font-mono text-xs text-cyan/50 w-5">{section.id}.</span>
-          <span className="font-inter font-semibold text-foreground text-sm sm:text-base tracking-wide uppercase">
-            {section.title}
-          </span>
-          <span className="hidden sm:inline font-mono text-[10px] text-muted-foreground/50 border border-border/30 px-2 py-0.5 rounded-sm">
-            {section.items.length} позиций
-          </span>
-        </div>
-        {open
-          ? <ChevronUp className="w-4 h-4 text-cyan/50 group-hover:text-cyan transition-colors" />
-          : <ChevronDown className="w-4 h-4 text-cyan/50 group-hover:text-cyan transition-colors" />
-        }
-      </button>
-
-      {/* Table */}
-      {open && (
-        <div className="overflow-x-auto">
-          <table className="w-full">
-            <thead>
-              <tr className="border-y border-border/20 bg-background/30">
-                <th className="px-5 py-2.5 text-left font-mono text-[10px] text-muted-foreground/50 uppercase tracking-wider w-10">№</th>
-                <th className="px-5 py-2.5 text-left font-mono text-[10px] text-muted-foreground/50 uppercase tracking-wider">Наименование</th>
-                <th className="px-5 py-2.5 text-right font-mono text-[10px] text-muted-foreground/50 uppercase tracking-wider whitespace-nowrap">Цена, ₽</th>
-              </tr>
-            </thead>
-            <tbody>
-              {filtered.map((item, idx) => (
-                <tr
-                  key={item.n}
-                  className={`border-b border-border/10 transition-colors hover:bg-cyan/3 ${idx % 2 === 0 ? 'bg-transparent' : 'bg-card/20'}`}
-                >
-                  <td className="px-5 py-3 font-mono text-xs text-muted-foreground/40">{item.n}</td>
-                  <td className="px-5 py-3 text-sm text-muted-foreground leading-relaxed">{item.name}</td>
-                  <td className="px-5 py-3 text-right font-mono text-sm font-semibold text-cyan whitespace-nowrap">{fmt(item.price)}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      )}
-    </motion.div>
-  );
-}
-
 export default function Prices() {
   const [search, setSearch] = useState('');
+  const [activeCategory, setActiveCategory] = useState(null);
 
-  const totalResults = sections.reduce((acc, s) => {
-    return acc + s.items.filter(i => !search || i.name.toLowerCase().includes(search.toLowerCase())).length;
-  }, 0);
+  const filteredSections = useMemo(() => {
+    return sections
+      .filter(s => activeCategory === null || s.id === activeCategory)
+      .map(s => ({
+        ...s,
+        items: s.items.filter(i =>
+          !search || i.name.toLowerCase().includes(search.toLowerCase())
+        ),
+      }))
+      .filter(s => s.items.length > 0);
+  }, [search, activeCategory]);
+
+  const totalResults = filteredSections.reduce((acc, s) => acc + s.items.length, 0);
 
   return (
     <div className="min-h-screen bg-background">
@@ -219,7 +165,6 @@ export default function Prices() {
           }}
         />
         <div className="absolute left-1/2 top-0 -translate-x-1/2 w-[500px] h-[300px] bg-cyan/4 blur-3xl rounded-full pointer-events-none" />
-
         <div className="relative max-w-5xl mx-auto px-4 sm:px-6 text-center">
           <div className="flex items-center justify-center gap-3 mb-5">
             <div className="w-8 h-px bg-cyan" />
@@ -233,8 +178,6 @@ export default function Prices() {
             Цены указаны в рублях за единицу. Сроки уточняйте у менеджера.<br />
             Стоимость не включает расходные материалы заказчика.
           </p>
-
-          {/* Stats bar */}
           <div className="flex justify-center gap-8 mt-10">
             {[
               { v: '66', l: 'позиций' },
@@ -251,31 +194,31 @@ export default function Prices() {
       </section>
 
       {/* Promos */}
-      <section className="py-14 border-b border-border/20">
+      <section className="py-12 border-b border-border/20">
         <div className="max-w-5xl mx-auto px-4 sm:px-6">
-          <div className="flex items-center gap-3 mb-8">
+          <div className="flex items-center gap-3 mb-6">
             <div className="w-6 h-px bg-cyan" />
             <span className="font-mono text-xs text-cyan tracking-[0.2em] uppercase">Акции и предложения</span>
           </div>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
             {promos.map((p, i) => (
               <motion.div
                 key={p.title}
                 initial={{ opacity: 0, y: 16 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: '-30px' }}
-                transition={{ duration: 0.4, delay: i * 0.07 }}
-                className="group relative flex items-start gap-4 p-4 border border-border/30 hover:border-cyan/30 rounded-sm bg-card/20 hover:bg-card/50 transition-all duration-300"
+                transition={{ duration: 0.4, delay: i * 0.06 }}
+                className="group flex items-start gap-3 p-4 border border-border/30 hover:border-cyan/30 rounded-sm bg-card/20 hover:bg-card/50 transition-all duration-300"
               >
-                <div className="w-9 h-9 rounded-sm border border-cyan/20 bg-cyan/5 flex items-center justify-center shrink-0 group-hover:bg-cyan/10 transition-colors">
-                  <p.icon className="w-4 h-4 text-cyan" />
+                <div className="w-8 h-8 rounded-sm border border-cyan/20 bg-cyan/5 flex items-center justify-center shrink-0 group-hover:bg-cyan/10 transition-colors">
+                  <p.icon className="w-3.5 h-3.5 text-cyan" />
                 </div>
                 <div className="flex-1 min-w-0">
-                  <div className="flex items-start justify-between gap-2 mb-1">
-                    <span className="text-sm font-semibold text-foreground leading-tight">{p.title}</span>
+                  <div className="flex items-start justify-between gap-2 mb-0.5">
+                    <span className="text-xs font-semibold text-foreground leading-tight">{p.title}</span>
                     <span className="font-mono text-[8px] uppercase tracking-wider px-1.5 py-0.5 bg-cyan/10 text-cyan border border-cyan/20 rounded-sm whitespace-nowrap shrink-0">{p.tag}</span>
                   </div>
-                  <p className="text-xs text-muted-foreground leading-relaxed">{p.desc}</p>
+                  <p className="text-[11px] text-muted-foreground leading-relaxed">{p.desc}</p>
                 </div>
               </motion.div>
             ))}
@@ -283,36 +226,125 @@ export default function Prices() {
         </div>
       </section>
 
-      {/* Search + Price table */}
-      <section className="py-14">
+      {/* Price Table */}
+      <section className="py-12">
         <div className="max-w-5xl mx-auto px-4 sm:px-6">
-          {/* Search bar */}
-          <div className="relative mb-8">
-            <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground/40" />
-            <input
-              type="text"
-              value={search}
-              onChange={e => setSearch(e.target.value)}
-              placeholder="Поиск по названию услуги..."
-              className="w-full pl-11 pr-4 h-12 bg-card/40 border border-border/40 hover:border-cyan/20 focus:border-cyan/40 rounded-sm text-sm text-foreground placeholder:text-muted-foreground/40 outline-none transition-colors font-inter"
-            />
-            {search && (
-              <span className="absolute right-4 top-1/2 -translate-y-1/2 font-mono text-[10px] text-cyan/60">
-                {totalResults} результатов
-              </span>
+
+          {/* Search + filter bar */}
+          <div className="mb-6 space-y-4">
+            {/* Search */}
+            <div className="relative">
+              <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground/40" />
+              <input
+                type="text"
+                value={search}
+                onChange={e => setSearch(e.target.value)}
+                placeholder="Поиск по названию услуги..."
+                className="w-full pl-11 pr-10 h-11 bg-card/40 border border-border/40 hover:border-cyan/20 focus:border-cyan/40 rounded-sm text-sm text-foreground placeholder:text-muted-foreground/40 outline-none transition-colors font-inter"
+              />
+              {search && (
+                <button
+                  onClick={() => setSearch('')}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground/40 hover:text-muted-foreground transition-colors"
+                >
+                  <X className="w-4 h-4" />
+                </button>
+              )}
+            </div>
+
+            {/* Category filter chips */}
+            <div className="flex flex-wrap gap-2">
+              <button
+                onClick={() => setActiveCategory(null)}
+                className={`px-3 py-1.5 rounded-sm text-xs font-mono tracking-wide border transition-all duration-200 ${
+                  activeCategory === null
+                    ? 'bg-cyan text-obsidian border-cyan font-semibold'
+                    : 'bg-card/30 text-muted-foreground border-border/40 hover:border-cyan/30 hover:text-foreground'
+                }`}
+              >
+                Все категории
+              </button>
+              {sections.map(s => (
+                <button
+                  key={s.id}
+                  onClick={() => setActiveCategory(activeCategory === s.id ? null : s.id)}
+                  className={`px-3 py-1.5 rounded-sm text-xs font-mono tracking-wide border transition-all duration-200 ${
+                    activeCategory === s.id
+                      ? 'bg-cyan text-obsidian border-cyan font-semibold'
+                      : 'bg-card/30 text-muted-foreground border-border/40 hover:border-cyan/30 hover:text-foreground'
+                  }`}
+                >
+                  {s.title}
+                </button>
+              ))}
+            </div>
+
+            {/* Results count */}
+            {(search || activeCategory !== null) && (
+              <div className="flex items-center gap-2">
+                <span className="font-mono text-[11px] text-muted-foreground/60">
+                  Найдено: <span className="text-cyan">{totalResults}</span> позиций
+                </span>
+              </div>
             )}
           </div>
 
-          {/* Sections */}
-          <div className="space-y-3">
-            {sections.map(s => (
-              <PriceSection key={s.id} section={s} search={search} />
-            ))}
+          {/* Table */}
+          <div className="border border-border/40 rounded-sm overflow-hidden">
+            <div className="overflow-x-auto">
+              <table className="w-full">
+                <thead>
+                  <tr className="bg-card/60 border-b border-border/40">
+                    <th className="px-4 py-3 text-left font-mono text-[10px] text-muted-foreground/50 uppercase tracking-wider w-10">№</th>
+                    <th className="px-4 py-3 text-left font-mono text-[10px] text-muted-foreground/50 uppercase tracking-wider">Наименование услуги</th>
+                    <th className="px-4 py-3 text-right font-mono text-[10px] text-muted-foreground/50 uppercase tracking-wider whitespace-nowrap">Цена, ₽</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {filteredSections.length === 0 ? (
+                    <tr>
+                      <td colSpan={3} className="px-4 py-12 text-center text-muted-foreground/50 text-sm font-mono">
+                        Ничего не найдено
+                      </td>
+                    </tr>
+                  ) : (
+                    filteredSections.map((section, si) => (
+                      <React.Fragment key={section.id}>
+                        {/* Category row */}
+                        <tr className="bg-secondary/30 border-t border-b border-border/30">
+                          <td colSpan={3} className="px-4 py-2.5">
+                            <div className="flex items-center gap-3">
+                              <span className="font-mono text-[9px] text-cyan/50 w-5 shrink-0">{section.id}.</span>
+                              <span className="font-inter font-semibold text-foreground text-xs sm:text-sm uppercase tracking-widest">
+                                {section.title}
+                              </span>
+                              <span className="font-mono text-[9px] text-muted-foreground/40 border border-border/30 px-1.5 py-0.5 rounded-sm ml-auto">
+                                {section.items.length} поз.
+                              </span>
+                            </div>
+                          </td>
+                        </tr>
+                        {/* Item rows */}
+                        {section.items.map((item, idx) => (
+                          <tr
+                            key={item.n}
+                            className={`border-b border-border/10 hover:bg-cyan/[0.03] transition-colors ${idx % 2 === 0 ? '' : 'bg-card/15'}`}
+                          >
+                            <td className="px-4 py-3 font-mono text-xs text-muted-foreground/35 align-top pt-3.5">{item.n}</td>
+                            <td className="px-4 py-3 text-sm text-muted-foreground leading-relaxed">{item.name}</td>
+                            <td className="px-4 py-3 text-right font-mono text-sm font-bold text-cyan whitespace-nowrap align-top pt-3.5">{fmt(item.price)}</td>
+                          </tr>
+                        ))}
+                      </React.Fragment>
+                    ))
+                  )}
+                </tbody>
+              </table>
+            </div>
           </div>
 
-          {/* Footer note */}
-          <div className="mt-10 p-5 border border-border/20 rounded-sm bg-card/10 text-center">
-            <p className="text-xs text-muted-foreground/70 leading-relaxed">
+          <div className="mt-6 p-4 border border-border/20 rounded-sm bg-card/10 text-center">
+            <p className="text-xs text-muted-foreground/60 leading-relaxed">
               Для сложных случаев — индивидуальная смета. Сроки изготовления уточняйте у менеджера.
             </p>
           </div>
