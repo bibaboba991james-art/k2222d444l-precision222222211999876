@@ -153,7 +153,7 @@ export default function TechSection() {
           <div className="grid lg:grid-cols-2 gap-8 items-center">
             <div className="order-2 lg:order-1 relative border border-cyan/20 rounded-sm overflow-hidden group" style={{ height: 'clamp(220px, 40vw, 420px)' }}>
               <img
-                src="https://media.base44.com/images/public/6a0d5f41b02c752e7da9527b/13bfc2cc8_image.png"
+                src="https://media.base44.com/images/public/6a0d5f41b02c752e7da9527b/3cee83ae8_generated_image.png"
                 alt="Акриловый протез на балке All on 4"
                 className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
               />
