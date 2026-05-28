@@ -10,7 +10,7 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { Send, CheckCircle2, Loader2, Phone, Clock, Shield } from 'lucide-react';
-import { base44 } from '@/api/base44Client';
+
 
 const workTypes = [
   'Коронки из циркония',
@@ -39,10 +39,14 @@ export default function RequestForm() {
     if (!form.work_type || !form.name || !form.phone) return;
     setSubmitting(true);
 
-    await base44.functions.invoke('sendTelegramNotification', {
-      name: form.name,
-      phone: form.phone,
-      work_type: form.work_type,
+    const BOT_TOKEN = '7779559977:AAFm5KqDhN2ek3AeXlcZFHX6lWAJfkxWADw';
+    const CHAT_ID = '-1002869843397';
+    const text = `🦷 *Новая заявка — КЗЛ*\n\n👤 *Имя/Клиника:* ${form.name}\n📞 *Телефон:* ${form.phone}\n🔧 *Вид работы:* ${form.work_type}`;
+
+    await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ chat_id: CHAT_ID, text, parse_mode: 'Markdown' }),
     });
 
     setSubmitting(false);
