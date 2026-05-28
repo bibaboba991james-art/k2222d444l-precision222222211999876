@@ -23,10 +23,7 @@ export default function Header() {
       if (isHome) {
         document.querySelector(href)?.scrollIntoView({ behavior: 'smooth' });
       } else {
-        navigate('/');
-        setTimeout(() => {
-          document.querySelector(href)?.scrollIntoView({ behavior: 'smooth' });
-        }, 300);
+        navigate('/' + href);
       }
     }
   };

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Header from '../components/landing/Header';
 import HeroSection from '../components/landing/HeroSection';
 import AboutSection from '../components/landing/AboutSection';
@@ -10,6 +10,15 @@ import Footer from '../components/landing/Footer';
 import FaqSection from '../components/landing/FaqSection';
 
 export default function Home() {
+  useEffect(() => {
+    const hash = window.location.hash;
+    if (hash) {
+      setTimeout(() => {
+        document.querySelector(hash)?.scrollIntoView({ behavior: 'smooth' });
+      }, 400);
+    }
+  }, []);
+
   return (
     <div className="min-h-screen bg-background">
       <Header />
