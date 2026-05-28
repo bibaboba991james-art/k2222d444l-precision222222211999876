@@ -1,7 +1,20 @@
 import React from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { Phone, Mail, MapPin, Clock, ArrowUpRight } from 'lucide-react';
 
 export default function Footer() {
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const handleRequestClick = (e) => {
+    e.preventDefault();
+    if (location.pathname === '/') {
+      document.querySelector('#request')?.scrollIntoView({ behavior: 'smooth' });
+    } else {
+      navigate('/#request');
+    }
+  };
+
   return (
     <footer id="contact" className="relative">
       {/* Top divider with glow */}
@@ -19,8 +32,8 @@ export default function Footer() {
               </h3>
             </div>
             <a
-              href="#request"
-              onClick={(e) => { e.preventDefault(); document.querySelector('#request')?.scrollIntoView({ behavior: 'smooth' }); }}
+              href="/#request"
+              onClick={handleRequestClick}
               className="group flex items-center gap-2 px-6 py-3 bg-cyan text-obsidian font-semibold text-sm rounded-sm hover:bg-cyan-dark transition-all duration-300 shrink-0"
             >
               Оставить заявку
